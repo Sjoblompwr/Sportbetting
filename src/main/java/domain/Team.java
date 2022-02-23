@@ -5,6 +5,7 @@
 package domain;
 
 import org.javalite.activejdbc.Model;
+import records.TeamRecord;
 
 /**
  * Team object inheriting from the model class. With some added methods for
@@ -12,19 +13,25 @@ import org.javalite.activejdbc.Model;
  *
  * @author David Sjöblom
  */
-public class Team extends Model {
-
+public class Team {
+    private final TeamRecord team;
+    public Team(){
+        this(new TeamRecord());
+    }
+    public Team(TeamRecord record){
+        this.team = record;
+    }
     /**
      * get all team table content
      *
      * @return
      */
     public int getTeamID() {
-        return Integer.parseInt(getString("id"));
+        return Integer.parseInt(team.getString("id"));
     }
 
     public String getTeamName() {
-        return getString("name");
+        return team.getString("name");
     }
 
 }

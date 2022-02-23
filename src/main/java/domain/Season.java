@@ -4,13 +4,19 @@
  */
 package domain;
 
-import org.javalite.activejdbc.Model;
+import records.SeasonRecord;
 
 /**
  * Season object inheriting from the model class.
  *
  * @author David Sjöblom
  */
-public class Season extends Model {
-
+public class Season  {
+    private final SeasonRecord season;
+    public Season(){
+        this(new SeasonRecord());
+    }
+    public Season(SeasonRecord record){
+        this.season = record;
+    }
 }

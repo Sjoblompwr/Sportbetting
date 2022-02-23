@@ -4,7 +4,8 @@
  */
 package domain;
 
-import org.javalite.activejdbc.Model;
+import records.PlayerRecord;
+
 
 /**
  * Player object inheriting from the model class. With some added methods for
@@ -12,22 +13,28 @@ import org.javalite.activejdbc.Model;
  *
  * @author David Sjöblom
  */
-public class Player extends Model {
-
+public class Player {
+    private final PlayerRecord player;
+    public Player(){
+        this(new PlayerRecord());
+    }
+    public Player(PlayerRecord record){
+        this.player = record;
+    }
     /**
      * get all player table content
      *
      * @return
      */
     public int getPlayerID() {
-        return Integer.parseInt(getString("id"));
+        return Integer.parseInt(player.getString("id"));
     }
 
     public String getPlayerName() {
-        return getString("player.name");
+        return player.getString("player.name");
     }
 
     public int getPlayerTeamID() {
-        return Integer.parseInt(getString("team_id"));
+        return Integer.parseInt(player.getString("team_id"));
     }
 }

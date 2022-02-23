@@ -19,13 +19,13 @@ import records.SportRecord;
  */
 public class Sport {
     
-    private final SportRecord theSport;
+    private final SportRecord sport;
         
     public Sport(){
         this(new SportRecord());
     }    
     public Sport(SportRecord record){
-        this.theSport = record;
+        this.sport = record;
     }
 
     /**
@@ -34,11 +34,11 @@ public class Sport {
      * @return
      */
     public int getSportID() {
-        return Integer.parseInt(theSport.getString("id"));
+        return Integer.parseInt(sport.getString("id"));
     }
 
     public String getSportName() {
-        return theSport.getString("name");
+        return sport.getString("name");
     }
     
     /** 
@@ -48,15 +48,15 @@ public class Sport {
      *
      */
     public boolean setName(String name){
-        theSport.set("name", name);
+        sport.set("name", name);
         return true;
     }
     public boolean setID(int id){
-        theSport.set("id",id);
+        sport.set("id",id);
         return true;
     }
     public boolean insert(){
-        return theSport.insert();
+        return sport.insert();
     }
     
     
@@ -72,6 +72,6 @@ public class Sport {
         return  new Sport(SportRecord.findById(x));
     }
     public void save(){
-        theSport.save();
+        sport.save();
     }
 }
