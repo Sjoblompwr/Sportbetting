@@ -38,8 +38,8 @@ public class MatchesDemo {
         boolean insertSuccessBool = false;
         //Create a sport
         try {
-            sport.set("id", 1);
-            sport.set("name", "Hockey");
+            sport.setID( 1);
+            sport.setName("Hockey");
 
             insertSuccessBool = sport.insert();
             if (insertSuccessBool) {
@@ -132,7 +132,7 @@ public class MatchesDemo {
          * Following code block is test code for console output, some with
          * database interaction and some with hardcoded input.
          */
-        sport = Sport.findById(1);
+       sport = Sport.findById(1);
         System.out.println(sport.getSportName());
 
         List<Team> teamList = Team.find("name = ?", "Ducks");
