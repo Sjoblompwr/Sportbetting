@@ -26,7 +26,7 @@ import java.util.Random;
 public class MatchesDemo {
 
     public static void main(String[] args) {
-        DbConn dbConn = DbConn.getInstance();
+    /*    DbConn dbConn = DbConn.getInstance();
         dbConn.open();
         Match match = new Match();
         Result result = new Result();
@@ -132,6 +132,7 @@ public class MatchesDemo {
          * Following code block is test code for console output, some with
          * database interaction and some with hardcoded input.
          */
+    /*
        sport = Sport.findById(1);
         System.out.println(sport.getSportName());
 
@@ -161,6 +162,6 @@ public class MatchesDemo {
             System.out.printf("Which had the score: %s %d : %d %s\n", (String) Team.find("id = ?", 1).get(0).getString("name"), r.getResultTeamOneScore(), r.getResultTeamTwoScore(), (String) Team.find("id = ?", 2).get(0).getString("name"));
         }
         dbConn.close();
-
+*/
     }
 }
