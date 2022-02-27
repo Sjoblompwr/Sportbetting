@@ -46,8 +46,12 @@ public class Sport {
      * even allow id input to be fair.
      *
      * @param name
+     * @throws domain.ExceptionClass
      */
     public void setName(String name) throws ExceptionClass {
+        name = name.trim();
+        name = excessWhitespaceRemover(name);
+        
             if (name.isBlank()) {
                 throw new ExceptionClass("Input may not only be whitespaces.");
             }
@@ -93,4 +97,20 @@ public class Sport {
           sport.set("id", SportRecord.count().intValue() + 1);
         sport.save();
     }
+    
+    private String excessWhitespaceRemover(String s){
+        s = s.trim();
+        int count = 0;
+        for(int i = 0;i < s.length();i++){
+            if(s.charAt(i) == ' '){
+                count++;
+            }
+            if(count == 2){
+                s = s.substring(0, i ) + excessWhitespaceRemover(s.substring(i, s.length()));
+            }
+        }
+        return s;
+    
+        }
+
 }
