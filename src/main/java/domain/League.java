@@ -12,8 +12,9 @@ import records.LeagueRecord;
  * With some added methods for "comfort"
  * @author David Sjöblom
  */
- public class League {
+ public class League implements BetObject{
         private final LeagueRecord league;
+        private final CommonFunctions cf = new CommonFunctions();
         public League(){
             this(new LeagueRecord()); // "snyggare" viss att skriva this.league = new LeagueRecord();
         }
@@ -26,15 +27,20 @@ import records.LeagueRecord;
          *
          * @return
          */
-        public int getLeagueID() {
+        public int getId() {
             return Integer.parseInt(league.getString("id"));
         }
 
-        public String getLeagueName() {
+        public String getName() {
             return league.getString("name");
+        }
+        public void setName(String name) throws ExceptionClass{
+            cf.setName(name, league, LeagueRecord.count().intValue() + 1);
         }
 
         public int getSeasonId() {
             return Integer.parseInt(league.getString("season_id"));
         }
+
+
     }

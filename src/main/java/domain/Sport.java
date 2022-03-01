@@ -15,7 +15,7 @@ import records.SportRecord;
  *
  * @author David Sjöblom
  */
-public class Sport {
+public class Sport implements BetObject{
 
     private final SportRecord sport;
 

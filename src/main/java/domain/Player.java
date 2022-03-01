@@ -13,8 +13,9 @@ import records.PlayerRecord;
  *
  * @author David Sjöblom
  */
-public class Player {
+public class Player implements BetObject{
     private final PlayerRecord player;
+    private final CommonFunctions cf = new CommonFunctions();
     public Player(){
         this(new PlayerRecord());
     }
@@ -26,15 +27,20 @@ public class Player {
      *
      * @return
      */
-    public int getPlayerID() {
+    public int getId() {
         return Integer.parseInt(player.getString("id"));
     }
 
-    public String getPlayerName() {
+    public String getName() {
         return player.getString("player.name");
     }
+    public void setName(String name) throws ExceptionClass{
+        cf.setName(name, player, PlayerRecord.count().intValue() + 1);
+    }
 
-    public int getPlayerTeamID() {
+    public int getTeamID() {
         return Integer.parseInt(player.getString("team_id"));
     }
+
+
 }

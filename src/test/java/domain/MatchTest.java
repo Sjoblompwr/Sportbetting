@@ -41,13 +41,13 @@ public class MatchTest {
      */
     @Test
     public void testGetMatchID() {
-        System.out.println("getMatchID");
-        Match instance = new Match();
-        int expResult = 0;
-        int result = instance.getMatchID();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        System.out.println("getMatchID");
+//        Match instance = new Match();
+//        int expResult = 0;
+//        int result = instance.getMatchID();
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
     }
 
     /**
@@ -55,13 +55,13 @@ public class MatchTest {
      */
     @Test
     public void testGetMatchLeagueID() {
-        System.out.println("getMatchLeagueID");
-        Match instance = new Match();
-        int expResult = 0;
-        int result = instance.getMatchLeagueID();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        System.out.println("getMatchLeagueID");
+//        Match instance = new Match();
+//        int expResult = 0;
+//        int result = instance.getMatchLeagueID();
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
     }
 
     /**
@@ -69,13 +69,13 @@ public class MatchTest {
      */
     @Test
     public void testGetMatchTeamOneID() {
-        System.out.println("getMatchTeamOneID");
-        Match instance = new Match();
-        int expResult = 0;
-        int result = instance.getMatchTeamOneID();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        System.out.println("getMatchTeamOneID");
+//        Match instance = new Match();
+//        int expResult = 0;
+//        int result = instance.getMatchTeamOneID();
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
     }
 
     /**
@@ -83,13 +83,13 @@ public class MatchTest {
      */
     @Test
     public void testGetMatchTeamTwoID() {
-        System.out.println("getMatchTeamTwoID");
-        Match instance = new Match();
-        int expResult = 0;
-        int result = instance.getMatchTeamTwoID();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        System.out.println("getMatchTeamTwoID");
+//        Match instance = new Match();
+//        int expResult = 0;
+//        int result = instance.getMatchTeamTwoID();
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
     }
     
 }

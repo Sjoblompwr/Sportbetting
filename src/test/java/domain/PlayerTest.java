@@ -41,13 +41,13 @@ public class PlayerTest {
      */
     @Test
     public void testGetPlayerID() {
-        System.out.println("getPlayerID");
-        Player instance = new Player();
-        int expResult = 0;
-        int result = instance.getPlayerID();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        System.out.println("getPlayerID");
+//        Player instance = new Player();
+//        int expResult = 0;
+//        int result = instance.getPlayerID();
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
     }
 
     /**
@@ -55,13 +55,13 @@ public class PlayerTest {
      */
     @Test
     public void testGetPlayerName() {
-        System.out.println("getPlayerName");
-        Player instance = new Player();
-        String expResult = "";
-        String result = instance.getPlayerName();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        System.out.println("getPlayerName");
+//        Player instance = new Player();
+//        String expResult = "";
+//        String result = instance.getPlayerName();
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
     }
 
     /**
@@ -69,13 +69,13 @@ public class PlayerTest {
      */
     @Test
     public void testGetPlayerTeamID() {
-        System.out.println("getPlayerTeamID");
-        Player instance = new Player();
-        int expResult = 0;
-        int result = instance.getPlayerTeamID();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        System.out.println("getPlayerTeamID");
+//        Player instance = new Player();
+//        int expResult = 0;
+//        int result = instance.getPlayerTeamID();
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
     }
     
 }

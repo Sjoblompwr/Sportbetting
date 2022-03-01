@@ -13,7 +13,7 @@ import records.ResultRecord;
  *
  * @author David Sjöblom
  */
-public class Result {
+public class Result implements BetObject{
     private final ResultRecord result;
     public Result(){
         this(new ResultRecord());
@@ -41,5 +41,7 @@ public class Result {
     public int getResultTeamTwoScore() {
         return Integer.parseInt(result.getString("team_two_score"));
     }
+
+
 
 }

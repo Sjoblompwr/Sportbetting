@@ -13,7 +13,7 @@ import records.MatchRecord;
  *
  * @author David Sjöblom
  */
-public class Match {
+public class Match implements BetObject{
     private final MatchRecord match;
     public Match(){
         this(new MatchRecord());
@@ -26,19 +26,21 @@ public class Match {
      *
      * @return
      */
-    public int getMatchID() {
+    public int getId() {
         return Integer.parseInt(match.getString("id"));
     }
 
-    public int getMatchLeagueID() {
+    public int getLeagueId() {
         return Integer.parseInt(match.getString("league_id"));
     }
 
-    public int getMatchTeamOneID() {
+    public int getTeamOneId() {
         return Integer.parseInt(match.getString("team_one_id"));
     }
 
-    public int getMatchTeamTwoID() {
+    public int getTeamTwoId() {
         return Integer.parseInt(match.getString("team_two_id"));
     }
+
+
 }
