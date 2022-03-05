@@ -6,11 +6,12 @@ package records;
 
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
+
 /**
  *
  * @author Dator
  */
 @Table("leagues")
 public class LeagueRecord extends Model {
-    
+
 }

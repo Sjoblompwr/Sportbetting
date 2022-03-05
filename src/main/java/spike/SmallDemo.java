@@ -8,6 +8,7 @@ import db.DbConn;
 import domain.CommonFunctions;
 import domain.League;
 import domain.Match;
+import domain.Player;
 import domain.Result;
 import domain.Season;
 import domain.Sport;
@@ -19,7 +20,8 @@ import java.util.List;
  * @author Dator
  */
 public class SmallDemo {
-        public static void main(String[] args) {
+    
+    public static void main(String[] args) {
         DbConn dbConn = DbConn.getInstance();
         dbConn.open();
         Match match = new Match();
@@ -28,11 +30,11 @@ public class SmallDemo {
         Season season = new Season();
         Sport sport = new Sport();
         Team team = new Team();
+        Player player = new Player();
         
-        
-            System.out.println();
-            try{
-   
+        System.out.println();
+        try {
+
 //               team.setName("Lotus");
 //                System.out.println("Lotus: " + team.getName());
 //                System.out.println(team.insert());
@@ -48,17 +50,19 @@ public class SmallDemo {
 //        for(Team t:list){
 //            System.out.println(t.getName());
 //        }
-            }catch(Exception e){
-                System.out.println(e);
-                System.out.println("Exception");
-            }
-         
+            player.setName("Thomas");
+            player.setTeamId(1);
+            player.insert();
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("Exception");
+        }
+        
         dbConn.close();
 //        String s = " foo     bar  ";
 //            System.out.println(s);
 //            System.out.println(new CommonFunctions().excessWhitespaceRemover(s));
 
-
-        }
-
+    }
+    
 }

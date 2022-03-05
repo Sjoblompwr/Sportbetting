@@ -15,9 +15,10 @@ import records.SportRecord;
  *
  * @author David Sjöblom
  */
-public class Sport implements BetObject{
+public class Sport implements BetObject {
 
     private final SportRecord sport;
+    private final CommonFunctions cf = new CommonFunctions();
 
     public Sport() {
         this(new SportRecord());
@@ -33,7 +34,7 @@ public class Sport implements BetObject{
      * @return
      */
     public int getId() {
-        return Integer.parseInt(sport.getString("id"));
+        return cf.getInteger(sport, "id");
     }
 
     public String getName() {
@@ -51,16 +52,16 @@ public class Sport implements BetObject{
     public void setName(String name) throws ExceptionClass {
         name = name.trim();
         name = excessWhitespaceRemover(name);
-        
-            if (name.isBlank()) {
-                throw new ExceptionClass("Input may not only be whitespaces.");
-            }
-            if (!name.matches("[a-zA-Z]+")) {
-                throw new ExceptionClass("Use of invalid characters.");
-            }
-            
-            sport.set("name", name);
-            sport.set("id", SportRecord.count().intValue() + 1); // This causes error in the testing phase. But works in practice, trust me :)
+
+        if (name.isBlank()) {
+            throw new ExceptionClass("Input may not only be whitespaces.");
+        }
+        if (!name.matches("[a-zA-Z]+")) {
+            throw new ExceptionClass("Use of invalid characters.");
+        }
+
+        sport.set("name", name);
+        sport.set("id", SportRecord.count().intValue() + 1); // This causes error in the testing phase. But works in practice, trust me :)
     }
 
     /**
@@ -94,23 +95,23 @@ public class Sport implements BetObject{
     }
 
     public void saveit() {
-          sport.set("id", SportRecord.count().intValue() + 1);
+        sport.set("id", SportRecord.count().intValue() + 1);
         sport.save();
     }
-    
-    private String excessWhitespaceRemover(String s){
+
+    private String excessWhitespaceRemover(String s) {
         s = s.trim();
         int count = 0;
-        for(int i = 0;i < s.length();i++){
-            if(s.charAt(i) == ' '){
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == ' ') {
                 count++;
             }
-            if(count == 2){
-                s = s.substring(0, i ) + excessWhitespaceRemover(s.substring(i, s.length()));
+            if (count == 2) {
+                s = s.substring(0, i) + excessWhitespaceRemover(s.substring(i, s.length()));
             }
         }
         return s;
-    
-        }
+
+    }
 
 }

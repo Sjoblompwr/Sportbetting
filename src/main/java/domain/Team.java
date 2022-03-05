@@ -14,23 +14,27 @@ import records.TeamRecord;
  *
  * @author David Sjöblom
  */
-public class Team implements BetObject{
+public class Team implements BetObject {
+
     private final TeamRecord team;
     private final CommonFunctions cf = new CommonFunctions();
-    public Team(){
+
+    public Team() {
         this(new TeamRecord());
     }
-    public Team(TeamRecord record){
+
+    public Team(TeamRecord record) {
         this.team = record;
     }
-   
+
     /**
      * get all team table content
      *
      * @return
      */
     public int getTeamID() {
-        return Integer.parseInt(team.getString("id"));
+        return cf.getInteger(team, "id");
+
     }
 
     public String getName() {
@@ -52,12 +56,13 @@ public class Team implements BetObject{
 //            team.set("name", name);
 //            team.set("id", TeamRecord.count().intValue() + 1); // This causes error in the testing phase. But works in practice, trust me :)
 //    }
-    public void setName(String name) throws ExceptionClass{
-       
-        
-        cf.setName(name, team,TeamRecord.count().intValue() + 1);
+
+    public void setName(String name) throws ExceptionClass {
+
+        cf.setName(name, team, TeamRecord.count().intValue() + 1);
     }
-        /**
+
+    /**
      * Current error handling; null, whitespaces and sport already existing.
      *
      */
@@ -75,12 +80,10 @@ public class Team implements BetObject{
         return team.insert();
     }
 
-
     /**
      * Attitional stuff to get main to work as is.
      */
-
-    public  static List<Team> findAll() {
+    public static List<Team> findAll() {
         List<TeamRecord> teamRecordList = TeamRecord.findAll();
         return teamRecordList.stream().map(record -> new Team(record)).collect(Collectors.toList());
 //        return (List<Team>) (List<?>)cf.findAll(team);
@@ -91,10 +94,8 @@ public class Team implements BetObject{
     }
 
     public void saveit() {
-          team.set("id", TeamRecord.count().intValue() + 1);
+        team.set("id", TeamRecord.count().intValue() + 1);
         team.save();
     }
-    
-    
 
 }

@@ -11,33 +11,35 @@ import org.javalite.activejdbc.Base;
  * @author awi
  */
 public class DbConn {
-    
+
     private static DbConn instance;
-    
-    private DbConn() {}
-    
+
+    private DbConn() {
+    }
+
     public static DbConn getInstance() {
-        if(instance == null)
+        if (instance == null) {
             instance = new DbConn();
-        
+        }
+
         return instance;
-        
+
     }
-   
-   public void open() {
-       Base.open("com.mysql.cj.jdbc.Driver", "jdbc:mysql://localhost/mydb?serverTimezone=UTC", "rootuser", "root");
-       //Base.open("com.mysql.cj.jdbc.Driver", "jdbc:mysql://localhost/sportstats?serverTimezone=UTC", "awi", "awipwd");
-       //Base.open("com.mysql.cj.jdbc.Driver", "jdbc:mysql://node81563-sql-prgvteknik-20.jls-sto1.elastx.net:11044/awi?useSSL=false", "awi", "awi_123_AWI");
+
+    public void open() {
+        Base.open("com.mysql.cj.jdbc.Driver", "jdbc:mysql://localhost/mydb?serverTimezone=UTC", "rootuser", "root");
+        //Base.open("com.mysql.cj.jdbc.Driver", "jdbc:mysql://localhost/sportstats?serverTimezone=UTC", "awi", "awipwd");
+        //Base.open("com.mysql.cj.jdbc.Driver", "jdbc:mysql://node81563-sql-prgvteknik-20.jls-sto1.elastx.net:11044/awi?useSSL=false", "awi", "awi_123_AWI");
     }
-    
+
     public void close() {
         Base.close();
     }
-    
+
     public static void _open() {
         Base.open("com.mysql.cj.jdbc.Driver", "jdbc:mysql://localhost/mydb?serverTimezone=UTC", "rootuser", "root");
     }
-    
+
     public static void _close() {
         Base.close();
     }

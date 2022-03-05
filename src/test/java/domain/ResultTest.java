@@ -16,22 +16,22 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Dator
  */
 public class ResultTest {
-    
+
     public ResultTest() {
     }
-    
+
     @BeforeAll
     public static void setUpClass() {
     }
-    
+
     @AfterAll
     public static void tearDownClass() {
     }
-    
+
     @BeforeEach
     public void setUp() {
     }
-    
+
     @AfterEach
     public void tearDown() {
     }
@@ -91,5 +91,5 @@ public class ResultTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
     }
-    
+
 }

@@ -4,7 +4,6 @@
  */
 package domain;
 
-
 import records.ResultRecord;
 
 /**
@@ -13,35 +12,50 @@ import records.ResultRecord;
  *
  * @author David Sjöblom
  */
-public class Result implements BetObject{
+public class Result implements BetObject {
+
     private final ResultRecord result;
-    public Result(){
+    private final CommonFunctions cf = new CommonFunctions();
+
+    public Result() {
         this(new ResultRecord());
     }
-    public Result(ResultRecord record){
+
+    public Result(ResultRecord record) {
         this.result = record;
     }
+
     /**
      * get all result table content
      *
      * @return
      */
     public int getResultID() {
-        return Integer.parseInt(result.getString("id"));
+        return cf.getInteger(result, "id");
     }
 
     public int getResultMatchID() {
-        return Integer.parseInt(result.getString("match_id"));
+        return cf.getInteger(result, "match_id");
     }
 
     public int getResultTeamOneScore() {
-        return Integer.parseInt(result.getString("team_one_score"));
+        return cf.getInteger(result, "team_one_score");
     }
 
     public int getResultTeamTwoScore() {
-        return Integer.parseInt(result.getString("team_two_score"));
+        return cf.getInteger(result, "team_two_score");
     }
 
+    public void setMatchId(int id) {
+        result.set("match_id", id);
+    }
 
+    public void setTeamOneScore(int score) {
+        result.set("team_one_score", score);
+    }
+
+    public void setTeamTwoScore(int score) {
+        result.set("team_two_score", score);
+    }
 
 }

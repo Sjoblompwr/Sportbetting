@@ -6,11 +6,12 @@ package records;
 
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
+
 /**
  *
  * @author Dator
  */
 @Table("macthes")
 public class MatchRecord extends Model {
-    
+
 }

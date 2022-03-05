@@ -19,14 +19,14 @@ import java.util.Random;
  * some example console output. System is build around a sport system involving
  * the classes match,result, season,sport and team. Error handling is not
  * properly implemented and code is meant to work as is with changes may result
- * in program failure.
- * Latest changes: 2022-02-14
+ * in program failure. Latest changes: 2022-02-14
+ *
  * @author David Sjöblom
  */
 public class MatchesDemo {
 
     public static void main(String[] args) {
-    /*    DbConn dbConn = DbConn.getInstance();
+        /*    DbConn dbConn = DbConn.getInstance();
         dbConn.open();
         Match match = new Match();
         Result result = new Result();
@@ -132,7 +132,7 @@ public class MatchesDemo {
          * Following code block is test code for console output, some with
          * database interaction and some with hardcoded input.
          */
-    /*
+ /*
        sport = Sport.findById(1);
         System.out.println(sport.getSportName());
 
@@ -162,6 +162,6 @@ public class MatchesDemo {
             System.out.printf("Which had the score: %s %d : %d %s\n", (String) Team.find("id = ?", 1).get(0).getString("name"), r.getResultTeamOneScore(), r.getResultTeamTwoScore(), (String) Team.find("id = ?", 2).get(0).getString("name"));
         }
         dbConn.close();
-*/
+         */
     }
 }
