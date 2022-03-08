@@ -4,8 +4,6 @@
  */
 package domain;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.javalite.activejdbc.Model;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
@@ -14,6 +12,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -47,13 +47,14 @@ public class CommonFunctionsTest {
     @Test
     public void testGetInteger() {
         System.out.println("getInteger");
-        Model model = null;
-        String arg = "";
+        mockRecord modelMock = mock(mockRecord.class);
+        when(modelMock.getString("id")).thenReturn("0");
+        String arg = "id";
         CommonFunctions instance = new CommonFunctions();
         int expResult = 0;
-        int result = instance.getInteger(model, arg);
+        int result = instance.getInteger(modelMock, arg);
         assertEquals(expResult, result);
-
+        verify(modelMock,times(1)).getString("id");
     }
 
     /**
@@ -62,11 +63,15 @@ public class CommonFunctionsTest {
     @Test
     public void testExcessWhitespaceRemover() {
         System.out.println("excessWhitespaceRemover");
-        String s = "";
+        String string = "";
         String expResult = "";
-        String result = CommonFunctions.excessWhitespaceRemover(s);
+        String result = CommonFunctions.excessWhitespaceRemover(string);
         assertEquals(expResult, result);
-
+        
+        expResult = "foo bar";
+        string = "  foo     bar   ";
+        result = CommonFunctions.excessWhitespaceRemover(string);
+        assertEquals(expResult, result);
     }
 
     /**
@@ -75,15 +80,14 @@ public class CommonFunctionsTest {
     @Test
     public void testSetName() {
         System.out.println("setName");
-         Model modelMock = mock(Model.class);
+         mockRecord modelMock = mock(mockRecord.class);
         
-       when(modelMock.getString("name")).thenReturn("Foo bar");
         String name = "";
-        Model model = null;
         int id = 0;
         CommonFunctions instance = new CommonFunctions();
+
         try {
-            instance.setName(name, model, id);
+            instance.setName(name, modelMock, id);
         } catch (ExceptionClass ex) {
             System.out.println(ex);
             System.out.println("Input may not only be whitespaces. Expected exception.");
@@ -91,24 +95,46 @@ public class CommonFunctionsTest {
         name = "123";
         
         try {
-            instance.setName(name,model,id);
+            instance.setName(name,modelMock,id);
         } catch (ExceptionClass ex) {
             System.out.println(ex);
             System.out.println("Use of invalid characters. Expected exception.");
         }
         
-        name = "David";
+        name = "Dav1d        ";
         
         try {
-            instance.setName(name,model,id); //Model is null.
+            instance.setName(name,modelMock,id); 
+        } catch (ExceptionClass ex) {
+            System.out.println(ex);
+            System.out.println("Use of invalid characters. Expected exception.");
+        }
+        
+        name = "David        ";
+        
+        try {
+            instance.setName(name,modelMock,id); 
         } catch (ExceptionClass ex) {
             System.out.println(ex);
             System.out.println("Exception not expected, if shown -> test fail.");
         }
         
+        verify(modelMock,times(1)).set("name","David");
+        verify(modelMock,times(1)).set("id",0);
         
         
         
+        
+    }
+    
+    @Test
+    public void testSetInteger(){
+        System.out.println("setInteger");
+        mockRecord modelMock = mock(mockRecord.class);
+        String arg = "id";
+        CommonFunctions instance = new CommonFunctions();
+        instance.setInteger(modelMock, arg,5);
+        verify(modelMock,times(1)).set("id",5);
     }
     
 }

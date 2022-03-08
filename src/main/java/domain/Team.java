@@ -32,48 +32,27 @@ public class Team implements BetObject {
      *
      * @return
      */
-    public int getTeamID() {
+    public int getId() {
         return cf.getInteger(team, "id");
 
     }
 
     public String getName() {
-        return team.getString("name");
+        return cf.getName(team);
     }
-//    //Can implement error handling from sport
-//    public void setName(String name)throws ExceptionClass {
-//        
-//        name = name.trim();
-//        name = CommonFunctions.excessWhitespaceRemover(name);
-//        
-//            if (name.isBlank()) {
-//                throw new ExceptionClass("Input may not only be whitespaces.");
-//            }
-//            if (!name.matches("[a-zA-Z]+")) {
-//                throw new ExceptionClass("Use of invalid characters.");
-//            }
-//            
-//            team.set("name", name);
-//            team.set("id", TeamRecord.count().intValue() + 1); // This causes error in the testing phase. But works in practice, trust me :)
-//    }
 
     public void setName(String name) throws ExceptionClass {
 
         cf.setName(name, team, TeamRecord.count().intValue() + 1);
     }
 
-    /**
-     * Current error handling; null, whitespaces and sport already existing.
-     *
-     */
     public boolean insert() {
-        if (this.getName() == null) {
-            throw new NullPointerException("Sport name has not been assigned");
-        }
-
+//        if (this.getId() == 0) {
+//            throw new NullPointerException("Team id (name has not been selected) has not been assigned");
+//        }
         for (Team t : Team.findAll()) {
             if (this.getName().equals(t.getName())) {
-                System.out.println("Team already exist."); //Should probebly be some sort of exception instead.
+                System.out.println("Team already exist.");
                 return false;
             }
         }
@@ -91,11 +70,6 @@ public class Team implements BetObject {
 
     public static Team findById(int x) {
         return new Team(TeamRecord.findById(x));
-    }
-
-    public void saveit() {
-        team.set("id", TeamRecord.count().intValue() + 1);
-        team.save();
     }
 
 }

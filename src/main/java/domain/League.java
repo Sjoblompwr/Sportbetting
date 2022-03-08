@@ -6,7 +6,6 @@ package domain;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import org.javalite.activejdbc.Model;
 import records.LeagueRecord;
 
 /**
@@ -17,23 +16,11 @@ import records.LeagueRecord;
  */
 public class League implements BetObject {
 
-    /**
-     * Attitional stuff to get main to work as is.
-     */
-    public static List<League> findAll() {
-        List<LeagueRecord> leagueRecordList = LeagueRecord.findAll();
-        return leagueRecordList.stream().map(record -> new League(record)).collect(Collectors.toList());
-//        return (List<League>) (List<?>)cf.findAll(league);
-    }
-
-    public static League findById(int x) {
-        return new League(LeagueRecord.findById(x));
-    }
     private final LeagueRecord league;
     private final CommonFunctions cf = new CommonFunctions();
 
     public League() {
-        this(new LeagueRecord()); // "snyggare" viss att skriva this.league = new LeagueRecord();
+        this(new LeagueRecord());
     }
 
     public League(LeagueRecord record) {
@@ -50,7 +37,7 @@ public class League implements BetObject {
     }
 
     public String getName() {
-        return league.getString("name");
+        return cf.getName(league);
     }
 
     /**
@@ -63,20 +50,33 @@ public class League implements BetObject {
     public void setName(String name) throws ExceptionClass {
         cf.setName(name, league, LeagueRecord.count().intValue() + 1); // Calling the static method to get the id will cause the test to fail.
     }
-
+    
     public int getSeasonId() {
         return cf.getInteger(league, "season_id");
     }
 
     public void setSeasonId(int id) {
-        league.set("season_id", id);
+        cf.setInteger(league, "season_id", id);
+    }
+    
+    
+    /**
+     * Attitional stuff to get main to work as is.
+     * @return 
+     */
+    public static List<League> findAll() {
+        List<LeagueRecord> leagueRecordList = LeagueRecord.findAll();
+        return leagueRecordList.stream().map(record -> new League(record)).collect(Collectors.toList());
     }
 
+    public static League findById(int x) {
+        return new League(LeagueRecord.findById(x));
+    }
+    /**
+     * Unable to properly move over the static functionallities into cf class.
+     * @return 
+     */
     public boolean insert() {
-        if (this.getName() == null) {
-            throw new NullPointerException("Sport name has not been assigned");
-        }
-
         for (League t : League.findAll()) {
             if (this.getName().equals(t.getName())) {
                 System.out.println("League already exist."); //Should probebly be some sort of exception instead.

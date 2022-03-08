@@ -4,9 +4,6 @@
  */
 package domain;
 
-import java.util.List;
-import org.javalite.activejdbc.Model;
-import records.TeamRecord;
 
 /**
  *

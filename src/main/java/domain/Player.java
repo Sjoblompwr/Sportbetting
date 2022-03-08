@@ -37,7 +37,11 @@ public class Player implements BetObject {
     }
 
     public String getName() {
-        return player.getString("name");
+        return cf.getName(player);
+    }
+   
+    public int getTeamId(){
+        return cf.getInteger(player, "team_id");
     }
 
     public void setName(String name) throws ExceptionClass {
@@ -45,30 +49,24 @@ public class Player implements BetObject {
     }
 
     public void setTeamId(int id) {
-        player.set("team_id", id);
+        cf.setInteger(player, "team_id", id);
     }
 
-    public boolean insert() {
-        if (this.getName() == null) {
-            throw new NullPointerException("Player name has not been assigned");
-        }
+    public boolean insert() throws ExceptionClass{
+//        if (this.getName() == null) {
+//            throw new NullPointerException("Player name has not been assigned");
+//        }
+//        if(this.getTeamId() == 0){
+//            throw new ExceptionClass("TeamId has not been selected.");
+//        }
 
-        for (Player p : Player.findAll()) {
-            if (this.getName().equals(p.getName())) {
-                System.out.println("Player already exist."); //Should probebly be some sort of exception instead.
-                return false;
-            }
-        }
         return player.insert();
     }
 
-    /**
-     * Attitional stuff to get main to work as is.
-     */
+
     public static List<Player> findAll() {
         List<PlayerRecord> playerRecordList = PlayerRecord.findAll();
         return playerRecordList.stream().map(record -> new Player(record)).collect(Collectors.toList());
-//        return (List<Player>) (List<?>)cf.findAll(player);
     }
 
     public static Player findById(int x) {

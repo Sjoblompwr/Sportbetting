@@ -4,8 +4,8 @@
  */
 package domain;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.javalite.activejdbc.LazyList;
+import org.javalite.activejdbc.Model;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,48 +45,60 @@ public class LeagueTest {
      */
     @Test
     public void testGetId() {
+        System.out.println("getId");
         LeagueRecord leagueRecordMock = mock(LeagueRecord.class);
-        when(leagueRecordMock.getString("id")).thenReturn("1"); // the thenReturn is the "database" where we control the input for testing purposes
         League instance = new League(leagueRecordMock);
-        int expResult = 1;
-        int result = instance.getId();
-        assertEquals(expResult, result);
+        when(leagueRecordMock.getString("id")).thenReturn("1");
+        instance.getId();
         verify(leagueRecordMock, times(1)).getString("id");
     }
-
-    /**
-     * Test of getLeagueName method, of class League.
-     * Might be able to fix a behaviour test, altho the sending of the id 
-     * requires db access unless we rewrite the method call.
-     */
     @Test
-    public void testSetName() {
+    public void testGetName() {
+        System.out.println("getName");
         LeagueRecord leagueRecordMock = mock(LeagueRecord.class);
+        when(leagueRecordMock.getString("name")).thenReturn("Hockey");
         League instance = new League(leagueRecordMock);
-
-        try {
-            instance.setName("Knatte"); 
-            verify(leagueRecordMock,times(1)).set("name","Knatte");
-        } catch (ExceptionClass ex) {
-            System.out.println("Behaviour test fail for setName");
-        }
-
-        // TODO review the generated test code and remove the default call to fail.
-
+        instance.getName();
+        verify(leagueRecordMock, times(1)).getString("name");
     }
+
+/**
+ * SetName can't be tested since it uses a static call. But functionallity is tested
+ * in the CommonFunctionsTest.
+ */
+
+
+ 
 
     /**
      * Test of getSeasonId method, of class League.
      */
     @Test
     public void testGetSeasonId() {
-//        System.out.println("getSeasonId");
-//        League instance = new League();
-//        int expResult = 0;
-//        int result = instance.getSeasonId();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
+        System.out.println("getSeasonId");
+        LeagueRecord leagueRecordMock = mock(LeagueRecord.class);
+        League instance = new League(leagueRecordMock);
+        when(leagueRecordMock.getString("season_id")).thenReturn("5");
+        instance.getSeasonId();
+        verify(leagueRecordMock,times (1)).getString("season_id");
     }
-
+    
+    @Test
+    public void testSetSeasonId(){
+        System.out.println("setSeasonId");
+        LeagueRecord leagueRecordMock = mock(LeagueRecord.class);
+        League instance = new League(leagueRecordMock);
+        instance.setSeasonId(0);
+        verify(leagueRecordMock,times(1)).set("season_id",0);
+    }
+    
+//   @Test
+//   public void testInsert(){
+//        System.out.println("insert");
+//        LeagueRecord leagueRecordMock = mock(LeagueRecord.class);
+//        League instance = new League(leagueRecordMock);
+//        when(leagueRecordMock.insert()).thenReturn(Boolean.TRUE);
+//        when(instance.findAll()).thenReturn(null);
+//        instance.insert();
+//   }
 }

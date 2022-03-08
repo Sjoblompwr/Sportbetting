@@ -35,34 +35,40 @@ public class Season implements BetObject {
     }
 
     public int getSportId() {
-        return cf.getInteger(season, "sportid");
+        return cf.getInteger(season, "sport_id");
     }
 
     //Might consider changing datatype in database or way of input. ( scrollbar input would be prefered)
     public void setYear(int year) throws ExceptionClass {
-        if (2155 < year && year < 1901) {
+        if (2155 < year || year < 1901) {
             throw new ExceptionClass("Too long ago sql YEAR datatype can only handle 1901-2155");
         }
-        season.set("year", year);
-
+        cf.setInteger(season, "year", year);
     }
 
-    public void setSportId(int sportId) {
-        season.set("sport_id", sportId);
+    public void setSportId(int id) {
+        cf.setInteger(season, "sport_id", id);
     }
 
+    /**
+     * Season needed a special insert method compared to the other domain object
+     * which only had name/id input.
+     *
+     * @return
+     * @throws ExceptionClass
+     */
     public boolean insert() throws ExceptionClass {
-        if (this.getYear() == 0) {
-            throw new NullPointerException("Year has not been assigned");
-        }
-        //Not sure, null wasn't allowed.
-        if (this.getSportId() == 0) {
-            throw new NullPointerException("Sport id has not been set.");
-        }
+//        if (this.getYear() == 0) {
+//            throw new NullPointerException("Year has not been assigned");
+//        }
+//        //Not sure, null wasn't allowed.
+//        if (this.getSportId() == 0) {
+//            throw new NullPointerException("Sport id has not been set.");
+//        }
 
         for (Season s : Season.findAll()) {
             if (this.getYear() == s.getYear()) {
-                System.out.println("Year already exist."); //Should probebly be some sort of exception instead.
+                System.out.println("Year already exist.");
                 return false;
             }
         }

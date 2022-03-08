@@ -41,47 +41,48 @@ public class Match implements BetObject {
         return cf.getInteger(match, "league_id");
     }
 
-    public int getMatchOneId() {
-        return cf.getInteger(match, "match_one_id");
+    public int getTeamOneId() {
+        return cf.getInteger(match, "team_one_id");
     }
 
-    public int getMatchTwoId() {
-        return cf.getInteger(match, "match_two_id");
+    public int getTeamTwoId() {
+        return cf.getInteger(match, "team_two_id");
     }
 
     public void setLeagueId(int id) {
-        match.set("league_id", id);
+        cf.setInteger(match, "league_id", id);
     }
 
-    public void setMatchOneId(int id) {
-        match.set("match_one_id", id);
+    public void setTeamOneId(int id) {
+       cf.setInteger(match, "team_one_id", id);
     }
 
-    public void setMatchTwoId(int id) {
-        match.set("match_two_id", id);
+    public void setTeamTwoId(int id) {
+        cf.setInteger(match, "team_two_id", id);
     }
 
-    public boolean insert() {
-        if (this.getId() == 0) {
-            throw new NullPointerException("Match id has not been assigned");
-        }
-
-        for (Match m : Match.findAll()) {
-            if (this.getId() == m.getId()) {
-                System.out.println("Match already exist."); //Should probebly be some sort of exception instead.
-                return false;
-            }
-        }
+    public boolean insert() throws ExceptionClass{
+        cf.setInteger(match, "id", MatchRecord.count().intValue() + 1);
+//        if (this.getId() == 0) {
+//            throw new NullPointerException("Something is wrong with the automatic assigning of id value.");
+//        }
+//        if(this.getLeagueId() == 0){
+//            throw new ExceptionClass("LeagueId has not been set");
+//        }
+//        if(this.getTeamOneId() == 0){
+//            throw new ExceptionClass("TeamOneId has not been set");
+//        }
+//        if(this.getTeamTwoId() == 0){
+//            throw new ExceptionClass("TeamTwoId has not been set");
+//        }
         return match.insert();
     }
 
-    /**
-     * Attitional stuff to get main to work as is.
-     */
+
     public static List<Match> findAll() {
         List<MatchRecord> matchRecordList = MatchRecord.findAll();
         return matchRecordList.stream().map(record -> new Match(record)).collect(Collectors.toList());
-//        return (List<Match>) (List<?>)cf.findAll(match);
+
     }
 
     public static Match findById(int id) {

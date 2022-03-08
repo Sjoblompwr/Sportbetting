@@ -38,7 +38,7 @@ public class Sport implements BetObject {
     }
 
     public String getName() {
-        return sport.getString("name");
+        return cf.getName(sport);
     }
 
     /**
@@ -50,29 +50,17 @@ public class Sport implements BetObject {
      * @throws domain.ExceptionClass
      */
     public void setName(String name) throws ExceptionClass {
-        name = name.trim();
-        name = excessWhitespaceRemover(name);
-
-        if (name.isBlank()) {
-            throw new ExceptionClass("Input may not only be whitespaces.");
-        }
-        if (!name.matches("[a-zA-Z]+")) {
-            throw new ExceptionClass("Use of invalid characters.");
-        }
-
-        sport.set("name", name);
-        sport.set("id", SportRecord.count().intValue() + 1); // This causes error in the testing phase. But works in practice, trust me :)
+        cf.setName(name, sport, SportRecord.count().intValue() + 1);
     }
 
     /**
      * Current error handling; null, whitespaces and sport already existing.
      *
      */
-    public boolean insert() {
-        if (this.getName() == null) {
-            throw new NullPointerException("Sport name has not been assigned");
-        }
-
+    public boolean insert()  throws ExceptionClass{
+//        if (this.getId() == 0) {
+//          throw new NullPointerException("Sport id (name has not been selected) has not been assigned");
+//        }
         for (Sport s : Sport.findAll()) {
             if (this.getName().equals(s.getName())) {
                 System.out.println("Sport already exist."); //Should probebly be some sort of exception instead.
@@ -92,26 +80,6 @@ public class Sport implements BetObject {
 
     public static Sport findById(int x) {
         return new Sport(SportRecord.findById(x));
-    }
-
-    public void saveit() {
-        sport.set("id", SportRecord.count().intValue() + 1);
-        sport.save();
-    }
-
-    private String excessWhitespaceRemover(String s) {
-        s = s.trim();
-        int count = 0;
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == ' ') {
-                count++;
-            }
-            if (count == 2) {
-                s = s.substring(0, i) + excessWhitespaceRemover(s.substring(i, s.length()));
-            }
-        }
-        return s;
-
     }
 
 }

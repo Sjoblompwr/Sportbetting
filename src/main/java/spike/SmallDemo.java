@@ -6,6 +6,7 @@ package spike;
 
 import db.DbConn;
 import domain.CommonFunctions;
+import domain.ExceptionClass;
 import domain.League;
 import domain.Match;
 import domain.Player;
@@ -14,6 +15,8 @@ import domain.Season;
 import domain.Sport;
 import domain.Team;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -33,9 +36,11 @@ public class SmallDemo {
         Player player = new Player();
         
         System.out.println();
-        try {
 
-//               team.setName("Lotus");
+
+        try {
+            //        try {
+            //               team.setName("Lotus");
 //                System.out.println("Lotus: " + team.getName());
 //                System.out.println(team.insert());
 //                team.setName("Enter");
@@ -50,13 +55,15 @@ public class SmallDemo {
 //        for(Team t:list){
 //            System.out.println(t.getName());
 //        }
-            player.setName("Thomas");
-            player.setTeamId(1);
-            player.insert();
-        } catch (Exception e) {
-            System.out.println(e);
-            System.out.println("Exception");
+league.setName("hej");
+        } catch (ExceptionClass ex) {
+            Logger.getLogger(SmallDemo.class.getName()).log(Level.SEVERE, null, ex);
         }
+            System.out.println(league.getId());
+            
+//        } catch (ExceptionClass ex) {
+//            System.out.println(ex);
+//        }
         
         dbConn.close();
 //        String s = " foo     bar  ";
