@@ -5,11 +5,15 @@
 package domain;
 
 /**
- *
- * @author Dator
+ * 
+ * @author David Sjöblom
  */
 public class ExceptionClass extends Exception {
 
+    /**
+     *
+     * @param errorMessage
+     */
     public ExceptionClass(String errorMessage) {
         super(errorMessage);
     }

@@ -6,63 +6,97 @@ package domain;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import org.javalite.activejdbc.Model;
 import records.MatchRecord;
 
 /**
- * Match object inheriting from the model class. With some added methods for
- * "comfort"
+ * Match object , getting database connection throught the Record input. Which
+ * Should extend Model.
  *
  * @author David Sjöblom
  */
 public class Match implements BetObject {
 
     private final MatchRecord match;
-    private final CommonFunctions cf = new CommonFunctions();
 
+    /**
+     *
+     */
     public Match() {
         this(new MatchRecord());
     }
 
+    /**
+     *
+     * @param record
+     */
     public Match(MatchRecord record) {
         this.match = record;
     }
 
     /**
-     * get all match table content
+     * Get id
      *
-     * @return
+     * @return - id, Integer
      */
     public int getId() {
-        return cf.getInteger(match, "id");
+        return CommonFunctions.getInteger(match, "id");
     }
 
+    /**
+     * Get League id
+     * @return league_id, integer
+     */
     public int getLeagueId() {
-        return cf.getInteger(match, "league_id");
+        return CommonFunctions.getInteger(match, "league_id");
     }
 
+    /**
+     * Get Team One Id
+     * @return - team_one_id, integer
+     */
     public int getTeamOneId() {
-        return cf.getInteger(match, "team_one_id");
+        return CommonFunctions.getInteger(match, "team_one_id");
     }
 
+    /**
+     * get Team Two Id
+     * @return - team_two_id, integer
+     */
     public int getTeamTwoId() {
-        return cf.getInteger(match, "team_two_id");
+        return CommonFunctions.getInteger(match, "team_two_id");
     }
 
+    /**
+     * Set league_id
+     * @param id
+     */
     public void setLeagueId(int id) {
-        cf.setInteger(match, "league_id", id);
+        CommonFunctions.setInteger(match, "league_id", id);
     }
 
+    /**
+     * Set team_one_id
+     * @param id
+     */
     public void setTeamOneId(int id) {
-       cf.setInteger(match, "team_one_id", id);
+       CommonFunctions.setInteger(match, "team_one_id", id);
     }
 
+    /**
+     * Set team_two_id
+     * @param id
+     */
     public void setTeamTwoId(int id) {
-        cf.setInteger(match, "team_two_id", id);
+        CommonFunctions.setInteger(match, "team_two_id", id);
     }
 
+    /**
+     * Insert current match into db. All attributes need to be set.
+     * @return true for success otherwise false
+     * @throws ExceptionClass
+     */
     public boolean insert() throws ExceptionClass{
-        cf.setInteger(match, "id", MatchRecord.count().intValue() + 1);
+        CommonFunctions.setInteger(match, "id", MatchRecord.count().intValue() + 1);
 //        if (this.getId() == 0) {
 //            throw new NullPointerException("Something is wrong with the automatic assigning of id value.");
 //        }
@@ -78,13 +112,21 @@ public class Match implements BetObject {
         return match.insert();
     }
 
-
+    /**
+     * Variant of findAll Model.findAll().
+     * @return - list of all matches
+     */
     public static List<Match> findAll() {
         List<MatchRecord> matchRecordList = MatchRecord.findAll();
         return matchRecordList.stream().map(record -> new Match(record)).collect(Collectors.toList());
 
     }
 
+    /**
+     * Find match by id
+     * @param id
+     * @return - match
+     */
     public static Match findById(int id) {
         return new Match(MatchRecord.findById(id));
     }

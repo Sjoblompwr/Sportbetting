@@ -9,20 +9,26 @@ import java.util.stream.Collectors;
 import records.ResultRecord;
 
 /**
- * Result object inheriting from the model class. With some added methods for
- * "comfort"
+ * Result object , getting database connection throught the Record input. Which
+ * Should extend Model.
  *
  * @author David Sjöblom
  */
 public class Result implements BetObject {
     
     private final ResultRecord result;
-    private final CommonFunctions cf = new CommonFunctions();
     
+    /**
+     *
+     */
     public Result() {
         this(new ResultRecord());
     }
     
+    /**
+     *
+     * @param record
+     */
     public Result(ResultRecord record) {
         this.result = record;
     }
@@ -33,39 +39,65 @@ public class Result implements BetObject {
      * @return
      */
     public int getId() {
-        return cf.getInteger(result, "id");
+        return CommonFunctions.getInteger(result, "id");
     }
     
+    /**
+     *
+     * @return
+     */
     public int getMatchId() {
-        return cf.getInteger(result, "match_id");
+        return CommonFunctions.getInteger(result, "match_id");
     }
     
+    /**
+     *
+     * @return
+     */
     public int getTeamOneScore() {
-        return cf.getInteger(result, "team_one_score");
+        return CommonFunctions.getInteger(result, "team_one_score");
     }
     
+    /**
+     *
+     * @return
+     */
     public int getTeamTwoScore() {
-        return cf.getInteger(result, "team_two_score");
+        return CommonFunctions.getInteger(result, "team_two_score");
     }
     
+    /**
+     *
+     * @param id
+     */
     public void setMatchId(int id) {
-        cf.setInteger(result, "match_id", id);
+        CommonFunctions.setInteger(result, "match_id", id);
     }
     
+    /**
+     *
+     * @param score
+     */
     public void setTeamOneScore(int score) {
-        cf.setInteger(result, "team_one_score", score);
+        CommonFunctions.setInteger(result, "team_one_score", score);
     }
     
+    /**
+     *
+     * @param score
+     */
     public void setTeamTwoScore(int score) {
-        cf.setInteger(result, "team_two_score", score);
+        CommonFunctions.setInteger(result, "team_two_score", score);
     }
 
     /**
-     * Current error handling; null, whitespaces and sport already existing.
+     * Current error handling; null, whitespaces and result already existing.
      *
+     * @return 
+     * @throws domain.ExceptionClass 
      */
     public boolean insert() throws ExceptionClass {
-        cf.setInteger(result, "id", ResultRecord.count().intValue() + 1);
+        CommonFunctions.setInteger(result, "id", ResultRecord.count().intValue() + 1);
 //        if (this.getId() == 0) {
 //            throw new NullPointerException("Something is wrong with the automatic assigning of id value.");
 //        }
@@ -80,12 +112,18 @@ public class Result implements BetObject {
 
     /**
      * Attitional stuff to get main to work as is.
+     * @return 
      */
     public static List<Result> findAll() {
         List<ResultRecord> resultRecordList = ResultRecord.findAll();
         return resultRecordList.stream().map(record -> new Result(record)).collect(Collectors.toList());
     }
     
+    /**
+     *
+     * @param x
+     * @return
+     */
     public static Result findById(int x) {
         return new Result(ResultRecord.findById(x));
     }

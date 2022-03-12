@@ -9,72 +9,95 @@ import java.util.stream.Collectors;
 import records.LeagueRecord;
 
 /**
- * League object inheriting from the model class. With some added methods for
- * "comfort"
+ * League domain, getting database connection throught the Record input. Which
+ * Should extend Model.
  *
  * @author David Sjöblom
  */
 public class League implements BetObject {
 
     private final LeagueRecord league;
-    private final CommonFunctions cf = new CommonFunctions();
 
+    /**
+     *
+     */
     public League() {
         this(new LeagueRecord());
     }
 
+    /**
+     *
+     * @param record
+     */
     public League(LeagueRecord record) {
         this.league = record;
     }
 
     /**
-     * get all league table content
+     * Get id attribute
      *
-     * @return
+     * @return - id, Integer
      */
     public int getId() {
-        return cf.getInteger(league, "id");
+        return CommonFunctions.getInteger(league, "id");
     }
 
+    /**
+     *Get name attribute
+     * @return - name, String
+     */
     public String getName() {
-        return cf.getName(league);
+        return CommonFunctions.getName(league);
     }
 
     /**
      * Id is set when name is set, since it's an automatically incremential
      * variable
      *
-     * @param name
+     * @param name - League name
      * @throws ExceptionClass
      */
     public void setName(String name) throws ExceptionClass {
-        cf.setName(name, league, LeagueRecord.count().intValue() + 1); // Calling the static method to get the id will cause the test to fail.
+        CommonFunctions.setName(name, league, LeagueRecord.count().intValue() + 1); 
     }
     
+    /**
+     * Get season id.
+     * @return season_id, Integer
+     */
     public int getSeasonId() {
-        return cf.getInteger(league, "season_id");
+        return CommonFunctions.getInteger(league, "season_id");
     }
 
+    /**
+     * Set season_id
+     * @param id - season_id
+     */
     public void setSeasonId(int id) {
-        cf.setInteger(league, "season_id", id);
+        CommonFunctions.setInteger(league, "season_id", id);
     }
     
     
     /**
-     * Attitional stuff to get main to work as is.
-     * @return 
+     * Variant of findAll Model.findAll().
+     * @return - list of all leagues
      */
     public static List<League> findAll() {
         List<LeagueRecord> leagueRecordList = LeagueRecord.findAll();
         return leagueRecordList.stream().map(record -> new League(record)).collect(Collectors.toList());
     }
 
-    public static League findById(int x) {
-        return new League(LeagueRecord.findById(x));
+    /**
+     * Find league by id
+     * @param id 
+     * @return - league
+     */
+    public static League findById(int id) {
+        return new League(LeagueRecord.findById(id));
     }
     /**
-     * Unable to properly move over the static functionallities into cf class.
-     * @return 
+     * Insert current league into db. All attributes need to be set.
+     * @return true for success otherwise false
      */
     public boolean insert() {
         for (League t : League.findAll()) {

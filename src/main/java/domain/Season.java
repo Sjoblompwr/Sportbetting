@@ -9,45 +9,74 @@ import java.util.stream.Collectors;
 import records.SeasonRecord;
 
 /**
- * Season object inheriting from the model class.
+ * Season object , getting database connection throught the Record input. Which
+ * Should extend Model.
  *
  * @author David Sjöblom
  */
 public class Season implements BetObject {
 
     private final SeasonRecord season;
-    private final CommonFunctions cf = new CommonFunctions();
 
+    /**
+     *
+     */
     public Season() {
         this(new SeasonRecord());
     }
 
+    /**
+     *
+     * @param record
+     */
     public Season(SeasonRecord record) {
         this.season = record;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId() {
-        return cf.getInteger(season, "id");
+        return CommonFunctions.getInteger(season, "id");
     }
 
+    /**
+     *
+     * @return
+     */
     public int getYear() {
-        return cf.getInteger(season, "year");
+        return CommonFunctions.getInteger(season, "year");
     }
 
+    /**
+     *
+     * @return
+     */
     public int getSportId() {
-        return cf.getInteger(season, "sport_id");
+        return CommonFunctions.getInteger(season, "sport_id");
     }
 
     //Might consider changing datatype in database or way of input. ( scrollbar input would be prefered)
+
+    /**
+     *
+     * @param year
+     * @throws ExceptionClass
+     */
     public void setYear(int year) throws ExceptionClass {
         if (2155 < year || year < 1901) {
             throw new ExceptionClass("Too long ago sql YEAR datatype can only handle 1901-2155");
         }
-        cf.setInteger(season, "year", year);
+        CommonFunctions.setInteger(season, "year", year);
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setSportId(int id) {
-        cf.setInteger(season, "sport_id", id);
+        CommonFunctions.setInteger(season, "sport_id", id);
     }
 
     /**
@@ -78,11 +107,12 @@ public class Season implements BetObject {
 
     /**
      * Attitional stuff to get main to work as is.
+     * @return 
      */
     public static List<Season> findAll() {
         List<SeasonRecord> seasonRecordList = SeasonRecord.findAll();
         return seasonRecordList.stream().map(record -> new Season(record)).collect(Collectors.toList());
-//        return (List<Team>) (List<?>)cf.findAll(team);
+//        return (List<Team>) (List<?>)CommonFunctions.findAll(team);
     }
 
 }

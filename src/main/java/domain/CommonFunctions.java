@@ -4,53 +4,81 @@
  */
 package domain;
 
-
 import org.javalite.activejdbc.Model;
 
 /**
- * Might want to consdier making all methods static in order to avoid creating
- * an instance of this class in every domain.
+ * Class contains functionallity which all "bet objects" share.
  *
- * @author Dator
+ * @author David Sjöblom
  */
 public class CommonFunctions {
 
-    public int getInteger(Model model, String attribute) {
+    /**
+     * Uses .getString method in Model to fetch String value of choosen
+     * attribute This value is then converter to Integer.
+     *
+     * @param model - db domain
+     * @param attribute - In form of table name
+     * @return - Integer value from db
+     */
+    public static int getInteger(Model model, String attribute) {
         return Integer.parseInt(model.getString(attribute));
     }
 
-    public void setInteger(Model model, String attribute, int value) {
+    /**
+     * Uses .set method in Model to set choosen attribute. Can only set integer
+     * values.
+     *
+     * @param model - db domain
+     * @param attribute - db table name
+     * @param value - Integer input into db
+     */
+    public static void setInteger(Model model, String attribute, int value) {
         model.set(attribute, value);
     }
 
-    public String getName(Model model) {
+    /**
+     * Uses .getString method in Model to fetch String value of choosen
+     * attribute
+     *
+     * @param model - db domain
+     * @return - attribute "name" as a String
+     */
+    public static String getName(Model model) {
         return model.getString("name");
     }
 
-    //Can implement error handling from sport
-    public void setName(String name, Model model, int id) throws ExceptionClass {
+    /**
+     * Uses .set method in Model, inputs attributes name & id into db. Also some
+     * error handling such as which characters are allowed / whitespace remover.
+     *
+     * @param name - Attribute value name
+     * @param model - db domain
+     * @param id - Attribute value id
+     * @throws ExceptionClass - extension of Exception.class, used to pass
+     * useful error messages. Could be exchanged with a boolean return instead.
+     */
+    public static void setName(String name, Model model, int id) throws ExceptionClass {
 
-        name = name.trim();
+        if (!name.matches("[a-zA-Z]+")) {
+            throw new ExceptionClass("Use of invalid characters.");
+        }
         name = CommonFunctions.excessWhitespaceRemover(name);
 
         if (name.isBlank()) {
             throw new ExceptionClass("Input may not only be whitespaces.");
         }
-        if (!name.matches("[a-zA-Z]+")) {
-            throw new ExceptionClass("Use of invalid characters.");
-        }
 
         model.set("name", name);
-        model.set("id", id); // This causes error in the testing phase. But works in practice, trust me :)
+        model.set("id", id);
     }
-
 
     /**
      * Function for removing excess whitespace in string input. Example input: "
      * foo bar" Returns: "foo bar".
      *
-     * @param s
-     * @return
+     * @param s - Any string
+     * @return - String with no consecutive whitespace
      */
     public static String excessWhitespaceRemover(String s) {
         s = s.trim();

@@ -10,20 +10,26 @@ import org.javalite.activejdbc.Model;
 import records.SportRecord;
 
 /**
- * Sport object inheriting from the model class. With some added methods for
- * "comfort" A Sport contain the attributes: ID ("primekey") name
+ * Sport object , getting database connection throught the Record input. Which
+ * Should extend Model.
  *
  * @author David Sjöblom
  */
 public class Sport implements BetObject {
 
     private final SportRecord sport;
-    private final CommonFunctions cf = new CommonFunctions();
 
+    /**
+     *
+     */
     public Sport() {
         this(new SportRecord());
     }
 
+    /**
+     *
+     * @param record
+     */
     public Sport(SportRecord record) {
         this.sport = record;
     }
@@ -34,11 +40,15 @@ public class Sport implements BetObject {
      * @return
      */
     public int getId() {
-        return cf.getInteger(sport, "id");
+        return CommonFunctions.getInteger(sport, "id");
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
-        return cf.getName(sport);
+        return CommonFunctions.getName(sport);
     }
 
     /**
@@ -50,12 +60,14 @@ public class Sport implements BetObject {
      * @throws domain.ExceptionClass
      */
     public void setName(String name) throws ExceptionClass {
-        cf.setName(name, sport, SportRecord.count().intValue() + 1);
+        CommonFunctions.setName(name, sport, SportRecord.count().intValue() + 1);
     }
 
     /**
      * Current error handling; null, whitespaces and sport already existing.
      *
+     * @return 
+     * @throws domain.ExceptionClass
      */
     public boolean insert()  throws ExceptionClass{
 //        if (this.getId() == 0) {
@@ -72,12 +84,18 @@ public class Sport implements BetObject {
 
     /**
      * Attitional stuff to get main to work as is.
+     * @return 
      */
     public static List<Sport> findAll() {
         List<SportRecord> sportRecordList = SportRecord.findAll();
         return sportRecordList.stream().map(record -> new Sport(record)).collect(Collectors.toList());
     }
 
+    /**
+     *
+     * @param x
+     * @return
+     */
     public static Sport findById(int x) {
         return new Sport(SportRecord.findById(x));
     }

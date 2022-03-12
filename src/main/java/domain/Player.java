@@ -9,20 +9,26 @@ import java.util.stream.Collectors;
 import records.PlayerRecord;
 
 /**
- * Player object inheriting from the model class. With some added methods for
- * "comfort"
+ * Player object , getting database connection throught the Record input. Which
+ * Should extend Model.
  *
  * @author David Sjöblom
  */
 public class Player implements BetObject {
 
     private final PlayerRecord player;
-    private final CommonFunctions cf = new CommonFunctions();
 
+    /**
+     *
+     */
     public Player() {
         this(new PlayerRecord());
     }
 
+    /**
+     *
+     * @param record
+     */
     public Player(PlayerRecord record) {
         this.player = record;
     }
@@ -33,25 +39,47 @@ public class Player implements BetObject {
      * @return
      */
     public int getId() {
-        return cf.getInteger(player, "id");
+        return CommonFunctions.getInteger(player, "id");
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
-        return cf.getName(player);
+        return CommonFunctions.getName(player);
     }
    
+    /**
+     *
+     * @return
+     */
     public int getTeamId(){
-        return cf.getInteger(player, "team_id");
+        return CommonFunctions.getInteger(player, "team_id");
     }
 
+    /**
+     *
+     * @param name
+     * @throws ExceptionClass
+     */
     public void setName(String name) throws ExceptionClass {
-        cf.setName(name, player, PlayerRecord.count().intValue() + 1);
+        CommonFunctions.setName(name, player, PlayerRecord.count().intValue() + 1);
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setTeamId(int id) {
-        cf.setInteger(player, "team_id", id);
+        CommonFunctions.setInteger(player, "team_id", id);
     }
 
+    /**
+     *
+     * @return
+     * @throws ExceptionClass
+     */
     public boolean insert() throws ExceptionClass{
 //        if (this.getName() == null) {
 //            throw new NullPointerException("Player name has not been assigned");
@@ -63,12 +91,20 @@ public class Player implements BetObject {
         return player.insert();
     }
 
-
+    /**
+     *
+     * @return
+     */
     public static List<Player> findAll() {
         List<PlayerRecord> playerRecordList = PlayerRecord.findAll();
         return playerRecordList.stream().map(record -> new Player(record)).collect(Collectors.toList());
     }
 
+    /**
+     *
+     * @param x
+     * @return
+     */
     public static Player findById(int x) {
         return new Player(PlayerRecord.findById(x));
     }

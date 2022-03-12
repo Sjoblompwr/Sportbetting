@@ -9,20 +9,26 @@ import java.util.stream.Collectors;
 import records.TeamRecord;
 
 /**
- * Team object inheriting from the model class. With some added methods for
- * "comfort"
+ * Team object , getting database connection throught the Record input. Which
+ * Should extend Model.
  *
  * @author David Sjöblom
  */
 public class Team implements BetObject {
 
     private final TeamRecord team;
-    private final CommonFunctions cf = new CommonFunctions();
 
+    /**
+     *
+     */
     public Team() {
         this(new TeamRecord());
     }
 
+    /**
+     *
+     * @param record
+     */
     public Team(TeamRecord record) {
         this.team = record;
     }
@@ -33,19 +39,32 @@ public class Team implements BetObject {
      * @return
      */
     public int getId() {
-        return cf.getInteger(team, "id");
+        return CommonFunctions.getInteger(team, "id");
 
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
-        return cf.getName(team);
+        return CommonFunctions.getName(team);
     }
 
+    /**
+     *
+     * @param name
+     * @throws ExceptionClass
+     */
     public void setName(String name) throws ExceptionClass {
 
-        cf.setName(name, team, TeamRecord.count().intValue() + 1);
+        CommonFunctions.setName(name, team, TeamRecord.count().intValue() + 1);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean insert() {
 //        if (this.getId() == 0) {
 //            throw new NullPointerException("Team id (name has not been selected) has not been assigned");
@@ -61,13 +80,19 @@ public class Team implements BetObject {
 
     /**
      * Attitional stuff to get main to work as is.
+     * @return 
      */
     public static List<Team> findAll() {
         List<TeamRecord> teamRecordList = TeamRecord.findAll();
         return teamRecordList.stream().map(record -> new Team(record)).collect(Collectors.toList());
-//        return (List<Team>) (List<?>)cf.findAll(team);
+//        return (List<Team>) (List<?>)CommonFunctions.findAll(team);
     }
 
+    /**
+     *
+     * @param x
+     * @return
+     */
     public static Team findById(int x) {
         return new Team(TeamRecord.findById(x));
     }
