@@ -112,7 +112,11 @@ public class Season implements BetObject {
     public static List<Season> findAll() {
         List<SeasonRecord> seasonRecordList = SeasonRecord.findAll();
         return seasonRecordList.stream().map(record -> new Season(record)).collect(Collectors.toList());
-//        return (List<Team>) (List<?>)CommonFunctions.findAll(team);
+//        return (List<Season>) (List<?>)CommonFunctions.findAll(season);
     }
-
+    public static List<Season> findAllSQL(String SQL, String params){
+        List<SeasonRecord> seasonRecordList = SeasonRecord.findBySQL(SQL, params);
+        return seasonRecordList.stream().map(record->new Season(record)).collect(Collectors.toList());
+        
+    }
 }

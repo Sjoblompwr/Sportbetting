@@ -14,6 +14,7 @@ import records.MatchRecord;
  *
  * @author David Sjöblom
  */
+
 public class Match implements BetObject {
 
     private final MatchRecord match;
@@ -121,7 +122,11 @@ public class Match implements BetObject {
         return matchRecordList.stream().map(record -> new Match(record)).collect(Collectors.toList());
 
     }
-
+    public static List<Match> findAllSQL(String SQL, String params){
+        List<MatchRecord> matchRecordList = MatchRecord.findBySQL(SQL, params);
+        return matchRecordList.stream().map(record->new Match(record)).collect(Collectors.toList());
+        
+    }
     /**
      * Find match by id
      * @param id

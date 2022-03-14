@@ -50,6 +50,10 @@ public class Team implements BetObject {
     public String getName() {
         return CommonFunctions.getName(team);
     }
+    //Not Tested
+    public int getLeagueId(){
+        return CommonFunctions.getInteger(team,"league_id");
+    }
 
     /**
      *
@@ -59,6 +63,10 @@ public class Team implements BetObject {
     public void setName(String name) throws ExceptionClass {
 
         CommonFunctions.setName(name, team, TeamRecord.count().intValue() + 1);
+    }
+    //Not tested
+    public void setLeagueId(int id){
+        CommonFunctions.setInteger(team, "league_id", id);
     }
 
     /**
@@ -87,7 +95,12 @@ public class Team implements BetObject {
         return teamRecordList.stream().map(record -> new Team(record)).collect(Collectors.toList());
 //        return (List<Team>) (List<?>)CommonFunctions.findAll(team);
     }
-
+    
+    public static List<Team> findAllSQL(String SQL, String params){
+        List<TeamRecord> teamRecordList = TeamRecord.findBySQL(SQL, params);
+        return teamRecordList.stream().map(record->new Team(record)).collect(Collectors.toList());
+        
+    }
     /**
      *
      * @param x

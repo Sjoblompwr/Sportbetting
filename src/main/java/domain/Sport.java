@@ -90,7 +90,11 @@ public class Sport implements BetObject {
         List<SportRecord> sportRecordList = SportRecord.findAll();
         return sportRecordList.stream().map(record -> new Sport(record)).collect(Collectors.toList());
     }
-
+    public static List<Sport> findAllSQL(String SQL, String params){
+        List<SportRecord> sportRecordList = SportRecord.findBySQL(SQL, params);
+        return sportRecordList.stream().map(record->new Sport(record)).collect(Collectors.toList());
+        
+    }
     /**
      *
      * @param x

@@ -14,9 +14,15 @@ import domain.Result;
 import domain.Season;
 import domain.Sport;
 import domain.Team;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import service.AddNewSportService;
+import service.GetAllLeaguesBySportId;
+import service.GetAllMatchesInSportService;
+import service.GetAllTeamsByLeagueId;
+import service.GetAllTeamsBySportIdService;
 
 /**
  *
@@ -25,51 +31,21 @@ import java.util.logging.Logger;
 public class SmallDemo {
     
     public static void main(String[] args) {
-        DbConn dbConn = DbConn.getInstance();
-        dbConn.open();
-        Match match = new Match();
-        Result result = new Result();
-        League league = new League();
-        Season season = new Season();
-        Sport sport = new Sport();
-        Team team = new Team();
-        Player player = new Player();
-        
-        System.out.println();
 
-
-        try {
-            //        try {
-            //               team.setName("Lotus");
-//                System.out.println("Lotus: " + team.getName());
-//                System.out.println(team.insert());
-//                team.setName("Enter");
-//                System.out.println("Enter: " + team.getName());
-//                System.out.println(team.insert());
-//        List<Sport> lists = Sport.findAll();
-//        for(Sport t:lists){
-//            System.out.println(t.getName());
-//        }
-//                System.out.println("");
-//        List<Team> list = team.findAll();
-//        for(Team t:list){
-//            System.out.println(t.getName());
-//        }
-league.setName("hej");
-        } catch (ExceptionClass ex) {
-            Logger.getLogger(SmallDemo.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            System.out.println(league.getId());
+//        Match match = new Match();
+//        Result result = new Result();
+//        League league = new League();
+//        Season season = new Season();
+//        Sport sport = new Sport();
+//        Team team = new Team();
+//        Player player = new Player();
+           List <Team> te = new ArrayList<>();
+           
+te = GetAllTeamsBySportIdService.execute(1);
+for(Team t:te){
+    System.out.println(t.getName() + "    "+ t.getId());
             
-//        } catch (ExceptionClass ex) {
-//            System.out.println(ex);
-//        }
-        
-        dbConn.close();
-//        String s = " foo     bar  ";
-//            System.out.println(s);
-//            System.out.println(new CommonFunctions().excessWhitespaceRemover(s));
-
+}
     }
     
 }

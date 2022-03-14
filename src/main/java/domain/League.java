@@ -86,7 +86,11 @@ public class League implements BetObject {
         List<LeagueRecord> leagueRecordList = LeagueRecord.findAll();
         return leagueRecordList.stream().map(record -> new League(record)).collect(Collectors.toList());
     }
-
+    public static List<League> findAllSQL(String SQL, String params){
+        List<LeagueRecord> leagueRecordList = LeagueRecord.findBySQL(SQL, params);
+        return leagueRecordList.stream().map(record->new League(record)).collect(Collectors.toList());
+        
+    }
     /**
      * Find league by id
      * @param id 

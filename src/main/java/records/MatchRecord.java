@@ -11,7 +11,7 @@ import org.javalite.activejdbc.annotations.Table;
  *
  * @author Dator
  */
-@Table("macthes")
+@Table("matches")
 public class MatchRecord extends Model {
 
 }
