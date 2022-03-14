@@ -4,20 +4,29 @@
  */
 package service;
 
+
+import Broker.BrokerFactory;
 import db.DbConn;
 import domain.Team;
+import Broker.BrokerFactory_;
 
 /**
  *
  * @author Dator
  */
 public class GetTeamByIdService {
-    public static Team execute(int id){
-        DbConn dbConn = DbConn.getInstance();
-        dbConn.open();
+    private DbConn dbConn;
+    private BrokerFactory brokerFactory;
+    public void init(DbConn dbConn, BrokerFactory_ brokerFactory){
+        this.dbConn = dbConn;
+        this.brokerFactory =  (BrokerFactory) brokerFactory;
+    }
+    public Team execute(int id){
+        this.dbConn.open();
         Team team;
         team = Team.findById(id);
-        dbConn.close();
+        BrokerFactory.getSportBroker().findById(id);
+        this.dbConn.close();
         return team;
     }
 }
