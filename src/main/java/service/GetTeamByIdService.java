@@ -11,7 +11,7 @@ import domain.Team;
  *
  * @author Dator
  */
-public class GetTeamById {
+public class GetTeamByIdService {
     public static Team execute(int id){
         DbConn dbConn = DbConn.getInstance();
         dbConn.open();
