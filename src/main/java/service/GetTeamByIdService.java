@@ -1,14 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package service;
 
 
-import Broker.BrokerFactory;
+import Broker.Broker;
 import db.DbConn;
 import domain.Team;
-import Broker.BrokerFactory_;
 
 /**
  *
@@ -16,17 +11,21 @@ import Broker.BrokerFactory_;
  */
 public class GetTeamByIdService {
     private DbConn dbConn;
-    private BrokerFactory brokerFactory;
-    public void init(DbConn dbConn, BrokerFactory_ brokerFactory){
+    private Broker broker;
+    public void init(DbConn dbConn, Broker broker){
         this.dbConn = dbConn;
-        this.brokerFactory =  (BrokerFactory) brokerFactory;
+        this.broker =   broker;
     }
     public Team execute(int id){
-        this.dbConn.open();
         Team team;
-        team = Team.findById(id);
-        BrokerFactory.getSportBroker().findById(id);
-        this.dbConn.close();
-        return team;
+        if(id < 1){
+            return null;
+        }
+        else{
+            this.dbConn.open();
+            team = (Team) broker.getTeamBroker().findById(id);
+            this.dbConn.close();
+            return team;
+        }
     }
 }

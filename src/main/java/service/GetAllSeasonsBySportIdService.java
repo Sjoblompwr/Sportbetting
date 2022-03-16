@@ -6,23 +6,29 @@ package service;
 
 import Broker.Broker;
 import db.DbConn;
+import domain.Season;
 import java.util.List;
 
 /**
  *
  * @author Dator
  */
-public class GetAllSportsService {
+public class GetAllSeasonsBySportIdService {
     private DbConn dbConn;
     private Broker broker;
     public void init(DbConn dbConn,Broker broker){
         this.dbConn = dbConn;
         this.broker = broker;
     }
-    public <Sport> List execute(){
-        this.dbConn.open();
-        List<Sport> list = (List<Sport>) broker.getSportBroker().findAll();
-        this.dbConn.close();
-        return list;
+    public <Sport> List execute(int id){
+        if(id < 1){
+            return null;
+        }
+        else{
+            this.dbConn.open();
+            List<Season> list = (List<Season>) broker.getSeasonBroker().findAllSQL("SELECT * FROM seasons WHERE sport_id = ?",Integer.toString(id));
+            this.dbConn.close();
+            return list;
+        }
     }
 }

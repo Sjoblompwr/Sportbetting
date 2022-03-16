@@ -4,22 +4,28 @@
  */
 package service;
 
+import Broker.Broker;
 import db.DbConn;
 import domain.ExceptionClass;
 import domain.Sport;
 
 /**
- *
- * @author Dator
+ * 
+ * @author David Sjöblom
  */
 public class AddNewSportService {
-    public static boolean execute(String name) throws ExceptionClass{
-        DbConn dbConn = DbConn.getInstance();
-        dbConn.open();
-        Sport sport = new Sport();
+    private DbConn dbConn;
+    private Broker broker;
+    public void init(DbConn dbConn, Broker broker){
+        this.dbConn = dbConn;
+        this.broker =   broker;
+    }
+    public boolean execute(String name) throws ExceptionClass{
+        this.dbConn.open();
+        Sport sport = broker.getSportBroker().create();
         sport.setName(name);
         Boolean bool = sport.insert();
-        dbConn.close();
+        this.dbConn.close();
         return bool;
     }
 }

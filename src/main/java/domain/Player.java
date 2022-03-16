@@ -16,6 +16,9 @@ import records.PlayerRecord;
  */
 public class Player implements BetObject {
 
+
+  
+
     private final PlayerRecord player;
 
     /**
@@ -100,6 +103,11 @@ public class Player implements BetObject {
         return playerRecordList.stream().map(record -> new Player(record)).collect(Collectors.toList());
     }
 
+      public static List<Player> findAllSQL(String query, String arg) {
+        List<PlayerRecord> playerRecordList = PlayerRecord.findBySQL(query, arg);
+        return playerRecordList.stream().map(record->new Player(record)).collect(Collectors.toList());
+        
+    } 
     /**
      *
      * @param x

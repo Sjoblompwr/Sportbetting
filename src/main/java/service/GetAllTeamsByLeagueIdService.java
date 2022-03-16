@@ -12,17 +12,23 @@ import java.util.List;
  *
  * @author Dator
  */
-public class GetAllSportsService {
+public class GetAllTeamsByLeagueIdService {
     private DbConn dbConn;
     private Broker broker;
     public void init(DbConn dbConn,Broker broker){
         this.dbConn = dbConn;
         this.broker = broker;
+               
     }
-    public <Sport> List execute(){
-        this.dbConn.open();
-        List<Sport> list = (List<Sport>) broker.getSportBroker().findAll();
-        this.dbConn.close();
-        return list;
+    public <Team>List execute(int id){
+        if(id < 1){
+            return null;
+        }
+        else{
+            this.dbConn.open();
+            List<Team> list = (List<Team>) broker.getTeamBroker().findAllSQL("SELECT * FROM teams WHERE league_id = ?",Integer.toString(id));
+            this.dbConn.close();
+            return list;
+        }
     }
 }

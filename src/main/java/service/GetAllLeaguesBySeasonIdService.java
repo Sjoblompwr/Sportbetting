@@ -6,32 +6,29 @@ package service;
 
 import Broker.Broker;
 import db.DbConn;
-import domain.ExceptionClass;
 import domain.League;
+import java.util.List;
 
 /**
  *
  * @author Dator
  */
-public class AddNewLeagueForSeason {    
+public class GetAllLeaguesBySeasonIdService {
     private DbConn dbConn;
     private Broker broker;
-    public void init(DbConn dbConn, Broker broker){
+    public void init(DbConn dbConn,Broker broker){
         this.dbConn = dbConn;
         this.broker =   broker;
     }
-     public boolean execute(int id,String name) throws ExceptionClass{
+    public <League>List execute(int id){
         if(id < 1){
-            return false;
+            return null;
         }
         else{
-            League league =  (League) broker.getLeagueBroker().create();
-            league.setName(name);
-            league.setSeasonId(id);
             this.dbConn.open();
-            boolean bool = league.insert();
+            List<League> list = (List<League>) broker.getLeagueBroker().findAllSQL("SELECT * FROM leagues WHERE season_id = ?", Integer.toString(id));
             this.dbConn.close();
-            return bool;
+            return list;
         }
     }
 }

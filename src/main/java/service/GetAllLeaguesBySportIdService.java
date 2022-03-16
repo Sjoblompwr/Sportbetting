@@ -6,49 +6,40 @@ package service;
 
 import Broker.Broker;
 import db.DbConn;
-import domain.League;
 import domain.Season;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+
 /**
  *
  * @author Dator
  */
-public class GetAllMatchesInSportService {
+public class GetAllLeaguesBySportIdService {
     private DbConn dbConn;
     private Broker broker;
-    public void init(DbConn dbConn,Broker broker){
+    public void init(DbConn dbConn, Broker broker){
         this.dbConn = dbConn;
-        this.broker = broker;
+        this.broker =   broker;
     }
-    public <Match>List execute(int id){
+    public <League>List execute(int id){
         if(id < 1){
             return null;
         }
         else{
-            List <Season>  seasons;
-            List <League> leagues = new ArrayList<>();
-            List <Match> matches = new ArrayList<>();
+            List<Season> seasons;
+            List<League> leagues = new ArrayList<>();
 
             GetAllSeasonsBySportIdService getAllSeasonsBySportId = new GetAllSeasonsBySportIdService();
             getAllSeasonsBySportId.init(this.dbConn,this.broker);
             seasons = getAllSeasonsBySportId.execute(id);
-
+            
             GetAllLeaguesBySeasonIdService getAllLeaguesBySeasonId = new GetAllLeaguesBySeasonIdService();
             getAllLeaguesBySeasonId.init(this.dbConn,this.broker);
-            for(Season s: seasons){
+            for(Season s:seasons){
                 leagues.addAll(getAllLeaguesBySeasonId.execute(s.getId()));
             }
-            //Avoid opening db if input is zero/null.
-            if(!leagues.isEmpty()){
-                this.dbConn.open();
-                for(League l: leagues){
-                    matches.addAll((Collection<? extends Match>) broker.getMatchBroker().findAllSQL("SELECT * FROM matches WHERE league_id = ?", Integer.toString(l.getId())));
-                }
-                this.dbConn.close();
-            }
-            return matches;
+
+            return leagues;
         }
     }
 }
