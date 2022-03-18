@@ -6,14 +6,11 @@ package service;
 
 import Broker.Broker;
 import Broker.SportBroker;
-import Broker.TeamBroker;
 import db.DbConn;
 import domain.Sport;
-import domain.Team;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
@@ -36,7 +33,7 @@ public class GetAllSportsServiceTest {
         GetAllSportsService service = new GetAllSportsService();
         service.init(conn, broker);
         service.execute();
-        verify(broker.getSportBroker(),times(1))
+        verify(broker.getSportBroker(),times(1)).findAll();
                 
     }
     
