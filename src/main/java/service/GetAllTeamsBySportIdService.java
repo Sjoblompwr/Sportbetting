@@ -27,21 +27,24 @@ public class GetAllTeamsBySportIdService {
             return null;
         }
         else{
-            GetAllSeasonsBySportIdService getAllSeasonsBySportId = new GetAllSeasonsBySportIdService();
+            GetAllSeasonsBySportIdService getAllSeasonsBySportId = 
+                                            new GetAllSeasonsBySportIdService();
             getAllSeasonsBySportId.init(this.dbConn,this.broker);
             List<Season> seasons = getAllSeasonsBySportId.execute(id);
 
             List<League> leagues = new ArrayList<>();
             List<Team> teams = new ArrayList<>();
 
-            GetAllLeaguesBySeasonIdService getAllLeaguesBySeasonId = new GetAllLeaguesBySeasonIdService();
-            getAllLeaguesBySeasonId.init(this.dbConn,new Broker());
+            GetAllLeaguesBySeasonIdService getAllLeaguesBySeasonId = 
+                                            new GetAllLeaguesBySeasonIdService();
+            getAllLeaguesBySeasonId.init(this.dbConn,this.broker);
 
             for(Season s: seasons){
                 leagues.addAll(getAllLeaguesBySeasonId.execute(s.getId()));
             }
 
-            GetAllTeamsByLeagueIdService getAllTeamsByLeagueId = new GetAllTeamsByLeagueIdService();
+            GetAllTeamsByLeagueIdService getAllTeamsByLeagueId = 
+                                            new GetAllTeamsByLeagueIdService();
             getAllTeamsByLeagueId.init(this.dbConn,this.broker);
             for(League l: leagues){
                 teams.addAll(getAllTeamsByLeagueId.execute(l.getId()));

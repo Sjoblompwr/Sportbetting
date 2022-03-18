@@ -27,55 +27,32 @@ import static org.mockito.Mockito.when;
  */
 public class GetTeamByIdServiceTest {
     
-    public GetTeamByIdServiceTest() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
-
-    /**
-     * Test of init method, of class GetTeamByIdService.
-     */
-    @Test
-    public void testInit() {
-        System.out.println("init");
-        DbConn dbConn = null;
-        Broker broker = null;
-        GetTeamByIdService instance = new GetTeamByIdService();
-        instance.init(dbConn, broker);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
     /**
      * Test of execute method, of class GetTeamByIdService.
      */
     @Test
     public void testExecute() {
-        System.out.println("execute");
+        System.out.println("execute behaviour");
         Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
         DbConn conn = mock(DbConn.class); 
         GetTeamByIdService service = new GetTeamByIdService();
         service.init(conn, broker);
-        service.execute(1);
-        verify(broker,times(1)).getTeamBroker();
+        assertNotNull(service.execute(1));
+        verify(broker.getTeamBroker(),times(1)).findById(1);
     }
-    
-    
-    
+    @Test
+    public void executeErrorHandlingTest(){
+        System.out.println("Error handling execute()");
+        Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
+        DbConn conn = mock(DbConn.class); 
+        GetTeamByIdService service = new GetTeamByIdService();
+        service.init(conn, broker);
+        Team team = service.execute(0);
+        //Excpecting zero interaction since service.execute(0) is instantly stopped.
+        verify(broker.getTeamBroker(),times(0)).findById(0);
+        assertEquals(team,null);
+    }
+   
     
       private Broker getMockedBrokerFactory() { 
         TeamBroker teamBroker = mock(TeamBroker.class); 
@@ -89,8 +66,7 @@ public class GetTeamByIdServiceTest {
         Team team = mock(Team.class); 
         TeamBroker teamBroker =  broker.getTeamBroker(); 
         when(teamBroker.findById(1)).thenReturn(team); 
-       // when(teamBroker.findById(0)).thenReturn(null); 
-        when(teamBroker.create()).thenReturn(team); 
+        when(teamBroker.findById(0)).thenReturn(null); 
         return broker; 
     } 
 }

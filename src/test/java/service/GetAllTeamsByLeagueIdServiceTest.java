@@ -5,67 +5,73 @@
 package service;
 
 import Broker.Broker;
+import Broker.TeamBroker;
 import db.DbConn;
+import domain.Team;
+import java.util.ArrayList;
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  *
- * @author Dator
+ * @author David Sjöblom
  */
 public class GetAllTeamsByLeagueIdServiceTest {
     
-    public GetAllTeamsByLeagueIdServiceTest() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
+ 
 
-    /**
-     * Test of init method, of class GetAllTeamsByLeagueIdService.
-     */
-    @Test
-    public void testInit() {
-        System.out.println("init");
-        DbConn dbConn = null;
-        Broker broker = null;
-        GetAllTeamsByLeagueIdService instance = new GetAllTeamsByLeagueIdService();
-        instance.init(dbConn, broker);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of execute method, of class GetAllTeamsByLeagueIdService.
+     * Show that that the method return null if input is not allowed (below 1)
      */
     @Test
-    public void testExecute() {
-        System.out.println("execute");
+    public void executeErrorHandlingTest() {
+        System.out.println("executeErrorHandling");
         int id = 0;
-        GetAllTeamsByLeagueIdService instance = new GetAllTeamsByLeagueIdService();
-        List expResult = null;
-        List result = instance.execute(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
+        DbConn conn = mock(DbConn.class); 
+        GetAllTeamsByLeagueIdService service = new GetAllTeamsByLeagueIdService();
+        service.init(conn, broker);
+        assertNull(service.execute(id));
+    }
+    /**
+     * Test of execute method, of class GetAllTeamsByLeagueIdService.
+     * Making sure it calls expected methods with expected input.
+     */
+    @Test
+    public void executeBehaviourTest() {
+        System.out.println("executeBehaviour");
+        int id = 1;
+        Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
+        DbConn conn = mock(DbConn.class); 
+        GetAllTeamsByLeagueIdService service = new GetAllTeamsByLeagueIdService();
+        service.init(conn, broker);
+        assertNotNull(service.execute(id));
+        verify(broker.getTeamBroker(),times(1))
+                .findAllSQL("SELECT * FROM teams WHERE league_id = ?","1");
     }
     
+    
+    private Broker getMockedBrokerFactory() { 
+        TeamBroker teamBroker = mock(TeamBroker.class); 
+        Broker broker = mock(Broker.class); 
+        when(broker.getTeamBroker()).thenReturn(teamBroker); 
+        return broker; 
+    } 
+     
+    private Broker getMockedBrokerFactoryWithBrokersSetup() { 
+        Broker broker = getMockedBrokerFactory(); 
+        Team team = mock(Team.class); 
+        TeamBroker teamBroker =  broker.getTeamBroker(); 
+        List <Team> teams = new ArrayList<>();
+        teams.add(team);
+        when(teamBroker.findAllSQL("SELECT * FROM teams WHERE league_id = ?","1")).thenReturn(teams); 
+        return broker; 
+    } 
 }

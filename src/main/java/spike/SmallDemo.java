@@ -59,7 +59,6 @@ public class SmallDemo {
         System.out.println(l.getId() + "   " + l.getName() + "    " +  l.getSeasonId());
     }
 
-
     }
     
 }
