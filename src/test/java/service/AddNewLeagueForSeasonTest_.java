@@ -6,7 +6,6 @@ package service;
 
 import Broker.Broker;
 import db.DbConn;
-import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Dator
  */
-public class GetAllMatchesInSportServiceTest {
+public class AddNewLeagueForSeasonTest_ {
     
-    public GetAllMatchesInSportServiceTest() {
+    public AddNewLeagueForSeasonTest_() {
     }
     
     @BeforeAll
@@ -40,29 +39,30 @@ public class GetAllMatchesInSportServiceTest {
     }
 
     /**
-     * Test of init method, of class GetAllMatchesInSportService.
+     * Test of init method, of class AddNewLeagueForSeason.
      */
     @Test
     public void testInit() {
         System.out.println("init");
         DbConn dbConn = null;
         Broker broker = null;
-        GetAllMatchesInSportService instance = new GetAllMatchesInSportService();
+        AddNewLeagueForSeason instance = new AddNewLeagueForSeason();
         instance.init(dbConn, broker);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of execute method, of class GetAllMatchesInSportService.
+     * Test of execute method, of class AddNewLeagueForSeason.
      */
     @Test
-    public void testExecute() {
+    public void testExecute() throws Exception {
         System.out.println("execute");
         int id = 0;
-        GetAllMatchesInSportService instance = new GetAllMatchesInSportService();
-        List expResult = null;
-        List result = instance.execute(id);
+        String name = "";
+        AddNewLeagueForSeason instance = new AddNewLeagueForSeason();
+        boolean expResult = false;
+        boolean result = instance.execute(id, name);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

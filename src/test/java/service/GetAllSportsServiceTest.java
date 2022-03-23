@@ -10,11 +10,12 @@ import db.DbConn;
 import domain.Sport;
 import java.util.ArrayList;
 import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import org.mockito.verification.VerificationMode;
 
 /**
  *
@@ -24,10 +25,12 @@ public class GetAllSportsServiceTest {
  
     /**
      * Test of execute method, of class GetAllSportsService.
+     * Checking if expected function is called.
+     * 
      */
     @Test
-    public void testExecute() {
-        System.out.println("execute");
+    public void testExecuteBehaviourTest() {
+        System.out.println("execute_Behaviour");
         Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
         DbConn conn = mock(DbConn.class); 
         GetAllSportsService service = new GetAllSportsService();
@@ -36,25 +39,35 @@ public class GetAllSportsServiceTest {
         verify(broker.getSportBroker(),times(1)).findAll();
                 
     }
+    /**
+     * Test of execute method, of class GetAllSportsService.
+     * Checking if something is returned from the method call.
+     */
+    @Test
+    public void testExecute_IsSomethingReturned() {
+        System.out.println("execute_IsSomethingReturned");
+        Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
+        DbConn conn = mock(DbConn.class); 
+        GetAllSportsService service = new GetAllSportsService();
+        service.init(conn, broker);
+        assertNotNull(service.execute());     
+    }
     
     
-        private Broker getMockedBrokerFactory() { 
+    
+    private Broker getMockedBrokerFactory() { 
         SportBroker sportBroker = mock(SportBroker.class); 
         Broker broker = mock(Broker.class); 
         when(broker.getSportBroker()).thenReturn(sportBroker); 
         return broker; 
     } 
-        private Broker getMockedBrokerFactoryWithBrokersSetup() { 
+    private Broker getMockedBrokerFactoryWithBrokersSetup() { 
         Broker broker = getMockedBrokerFactory();
         SportBroker sportBroker =  broker.getSportBroker();
-        Sport sport = new Sport();
+        Sport sport = mock(Sport.class);
         List <Sport> sports = new ArrayList<>();
         sports.add(sport);
         when(sportBroker.findAll()).thenReturn(sports); 
         return broker; 
     } 
-
-    private Object verify(SportBroker sportBroker, VerificationMode times) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

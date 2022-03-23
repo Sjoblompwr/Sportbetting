@@ -31,14 +31,16 @@ public class GetAllTeamsByLeagueIdServiceTest {
      * Show that that the method return null if input is not allowed (below 1)
      */
     @Test
-    public void executeErrorHandlingTest() {
-        System.out.println("executeErrorHandling");
+    public void testExecute_ErrorHandlingTest() {
+        System.out.println("execute_ErrorHandling");
         int id = 0;
         Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
         DbConn conn = mock(DbConn.class); 
         GetAllTeamsByLeagueIdService service = new GetAllTeamsByLeagueIdService();
         service.init(conn, broker);
         assertNull(service.execute(id));
+        verify(broker.getTeamBroker(),times(0))
+                .findAllSQL("SELECT * FROM teams WHERE league_id = ?","0");
     }
     /**
      * Test of execute method, of class GetAllTeamsByLeagueIdService.

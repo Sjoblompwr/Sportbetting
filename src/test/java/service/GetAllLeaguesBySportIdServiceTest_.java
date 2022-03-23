@@ -6,6 +6,7 @@ package service;
 
 import Broker.Broker;
 import db.DbConn;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,9 +18,9 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Dator
  */
-public class AddNewSportServiceTest {
+public class GetAllLeaguesBySportIdServiceTest_ {
     
-    public AddNewSportServiceTest() {
+    public GetAllLeaguesBySportIdServiceTest_() {
     }
     
     @BeforeAll
@@ -39,29 +40,29 @@ public class AddNewSportServiceTest {
     }
 
     /**
-     * Test of init method, of class AddNewSportService.
+     * Test of init method, of class GetAllLeaguesBySportIdService.
      */
     @Test
     public void testInit() {
         System.out.println("init");
         DbConn dbConn = null;
         Broker broker = null;
-        AddNewSportService instance = new AddNewSportService();
+        GetAllLeaguesBySportIdService instance = new GetAllLeaguesBySportIdService();
         instance.init(dbConn, broker);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of execute method, of class AddNewSportService.
+     * Test of execute method, of class GetAllLeaguesBySportIdService.
      */
     @Test
-    public void testExecute() throws Exception {
+    public void testExecute() {
         System.out.println("execute");
-        String name = "";
-        AddNewSportService instance = new AddNewSportService();
-        boolean expResult = false;
-        boolean result = instance.execute(name);
+        int id = 0;
+        GetAllLeaguesBySportIdService instance = new GetAllLeaguesBySportIdService();
+        List expResult = null;
+        List result = instance.execute(id);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

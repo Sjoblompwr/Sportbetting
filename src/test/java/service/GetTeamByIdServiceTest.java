@@ -5,15 +5,9 @@
 package service;
 
 import Broker.Broker;
-import Broker.SportBroker;
 import Broker.TeamBroker;
 import db.DbConn;
-import domain.Sport;
 import domain.Team;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -23,38 +17,43 @@ import static org.mockito.Mockito.when;
 
 /**
  *
- * @author Dator
+ * @author David Sjöblom
  */
 public class GetTeamByIdServiceTest {
     
     /**
      * Test of execute method, of class GetTeamByIdService.
+     * checking if the correct method is called.
      */
     @Test
-    public void testExecute() {
-        System.out.println("execute behaviour");
+    public void testExecute_behaviour() {
+        System.out.println("execute_behaviour");
+        int id = 1;
         Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
         DbConn conn = mock(DbConn.class); 
         GetTeamByIdService service = new GetTeamByIdService();
         service.init(conn, broker);
-        assertNotNull(service.execute(1));
+        service.execute(id);
         verify(broker.getTeamBroker(),times(1)).findById(1);
     }
+    /**
+     * Test of execute method, of class GetTeamByIdService.
+     * Checking if method return null when input is invalid.
+     */
     @Test
-    public void executeErrorHandlingTest(){
+    public void testExecute_ErrorHandlingTest(){
         System.out.println("Error handling execute()");
+        int id = 0;
         Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
         DbConn conn = mock(DbConn.class); 
         GetTeamByIdService service = new GetTeamByIdService();
         service.init(conn, broker);
-        Team team = service.execute(0);
-        //Excpecting zero interaction since service.execute(0) is instantly stopped.
+        assertNull(service.execute(id));
         verify(broker.getTeamBroker(),times(0)).findById(0);
-        assertEquals(team,null);
     }
    
     
-      private Broker getMockedBrokerFactory() { 
+    private Broker getMockedBrokerFactory() { 
         TeamBroker teamBroker = mock(TeamBroker.class); 
         Broker broker = mock(Broker.class); 
         when(broker.getTeamBroker()).thenReturn(teamBroker); 

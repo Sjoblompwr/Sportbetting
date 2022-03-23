@@ -6,7 +6,6 @@ package service;
 
 import Broker.Broker;
 import db.DbConn;
-import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Dator
  */
-public class GetAllLeaguesBySeasonIdServiceTest {
+public class AddNewTeamServiceTest_ {
     
-    public GetAllLeaguesBySeasonIdServiceTest() {
+    public AddNewTeamServiceTest_() {
     }
     
     @BeforeAll
@@ -40,29 +39,32 @@ public class GetAllLeaguesBySeasonIdServiceTest {
     }
 
     /**
-     * Test of init method, of class GetAllLeaguesBySeasonIdService.
+     * Test of init method, of class AddNewTeamService.
      */
     @Test
     public void testInit() {
         System.out.println("init");
         DbConn dbConn = null;
         Broker broker = null;
-        GetAllLeaguesBySeasonIdService instance = new GetAllLeaguesBySeasonIdService();
+        AddNewTeamService instance = new AddNewTeamService();
         instance.init(dbConn, broker);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of execute method, of class GetAllLeaguesBySeasonIdService.
+     * Test of execute method, of class AddNewTeamService.
      */
     @Test
-    public void testExecute() {
+    public void testExecute() throws Exception {
         System.out.println("execute");
-        int id = 0;
-        GetAllLeaguesBySeasonIdService instance = new GetAllLeaguesBySeasonIdService();
-        List expResult = null;
-        List result = instance.execute(id);
+        int sport_id = 0;
+        int season_id = 0;
+        int league_id = 0;
+        String name = "";
+        AddNewTeamService instance = new AddNewTeamService();
+        boolean expResult = false;
+        boolean result = instance.execute(sport_id, season_id, league_id, name);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

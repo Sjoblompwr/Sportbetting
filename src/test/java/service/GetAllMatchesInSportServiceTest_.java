@@ -6,6 +6,7 @@ package service;
 
 import Broker.Broker;
 import db.DbConn;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,9 +18,9 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Dator
  */
-public class AddNewLeagueForSeasonTest {
+public class GetAllMatchesInSportServiceTest_ {
     
-    public AddNewLeagueForSeasonTest() {
+    public GetAllMatchesInSportServiceTest_() {
     }
     
     @BeforeAll
@@ -39,30 +40,29 @@ public class AddNewLeagueForSeasonTest {
     }
 
     /**
-     * Test of init method, of class AddNewLeagueForSeason.
+     * Test of init method, of class GetAllMatchesInSportService.
      */
     @Test
     public void testInit() {
         System.out.println("init");
         DbConn dbConn = null;
         Broker broker = null;
-        AddNewLeagueForSeason instance = new AddNewLeagueForSeason();
+        GetAllMatchesInSportService instance = new GetAllMatchesInSportService();
         instance.init(dbConn, broker);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of execute method, of class AddNewLeagueForSeason.
+     * Test of execute method, of class GetAllMatchesInSportService.
      */
     @Test
-    public void testExecute() throws Exception {
+    public void testExecute() {
         System.out.println("execute");
         int id = 0;
-        String name = "";
-        AddNewLeagueForSeason instance = new AddNewLeagueForSeason();
-        boolean expResult = false;
-        boolean result = instance.execute(id, name);
+        GetAllMatchesInSportService instance = new GetAllMatchesInSportService();
+        List expResult = null;
+        List result = instance.execute(id);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

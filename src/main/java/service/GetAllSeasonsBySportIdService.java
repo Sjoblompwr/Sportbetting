@@ -10,7 +10,7 @@ import domain.Season;
 import java.util.List;
 
 /**
- *
+ * Return list of seasons based on sport_id
  * @author Dator
  */
 public class GetAllSeasonsBySportIdService {
