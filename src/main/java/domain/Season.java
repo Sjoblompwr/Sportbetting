@@ -56,7 +56,10 @@ public class Season implements BetObject {
     public int getSportId() {
         return CommonFunctions.getInteger(season, "sport_id");
     }
-
+    
+    public void setId(int id){
+        CommonFunctions.setInteger(season, "id", id);
+    }
     //Might consider changing datatype in database or way of input. ( scrollbar input would be prefered)
 
     /**

@@ -12,8 +12,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 /**
- *
- * @author Dator
+ * Gets all Season by SportId & gets all Leagues with every SeasonId
+ * If leagues exist, return matches otherwise null.
+ * @author David Sjöblom
  */
 public class GetAllMatchesInSportService {
     private DbConn dbConn;

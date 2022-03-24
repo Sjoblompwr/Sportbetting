@@ -11,9 +11,9 @@ import domain.League;
 
 /**
  *
- * @author Dator
+ * @author David Sjöblom
  */
-public class AddNewLeagueForSeason {    
+public class AddNewLeagueForSeasonService {    
     private DbConn dbConn;
     private Broker broker;
     public void init(DbConn dbConn, Broker broker){

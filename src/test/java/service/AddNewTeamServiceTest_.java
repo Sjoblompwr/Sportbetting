@@ -69,5 +69,19 @@ public class AddNewTeamServiceTest_ {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+       private Broker getMockedBrokerFactory() { 
+        LeagueBroker leagueBroker = mock(LeagueBroker.class); 
+        Broker broker = mock(Broker.class); 
+        when(broker.getLeagueBroker()).thenReturn(leagueBroker); 
+        return broker; 
+    } 
+    private Broker getMockedBrokerFactoryWithBrokersSetup() { 
+        Broker broker = getMockedBrokerFactory();
+        LeagueBroker leagueBroker =  broker.getLeagueBroker();
+        League league = mock(League.class);
+        List <League> leagues = new ArrayList<>();
+        leagues.add(league);
+        when(leagueBroker.findAll()).thenReturn(leagues); 
+        return broker; 
+    }  
 }

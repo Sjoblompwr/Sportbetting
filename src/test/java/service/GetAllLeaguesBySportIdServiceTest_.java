@@ -20,38 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class GetAllLeaguesBySportIdServiceTest_ {
     
-    public GetAllLeaguesBySportIdServiceTest_() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
-
-    /**
-     * Test of init method, of class GetAllLeaguesBySportIdService.
-     */
-    @Test
-    public void testInit() {
-        System.out.println("init");
-        DbConn dbConn = null;
-        Broker broker = null;
-        GetAllLeaguesBySportIdService instance = new GetAllLeaguesBySportIdService();
-        instance.init(dbConn, broker);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of execute method, of class GetAllLeaguesBySportIdService.
@@ -67,5 +35,19 @@ public class GetAllLeaguesBySportIdServiceTest_ {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+        private Broker getMockedBrokerFactory() { 
+        LeagueBroker leagueBroker = mock(LeagueBroker.class); 
+        Broker broker = mock(Broker.class); 
+        when(broker.getLeagueBroker()).thenReturn(leagueBroker); 
+        return broker; 
+    } 
+    private Broker getMockedBrokerFactoryWithBrokersSetup() { 
+        Broker broker = getMockedBrokerFactory();
+        LeagueBroker leagueBroker =  broker.getLeagueBroker();
+        League league = mock(League.class);
+        List <League> leagues = new ArrayList<>();
+        leagues.add(league);
+        when(leagueBroker.findAll()).thenReturn(leagues); 
+        return broker; 
+    } 
 }
