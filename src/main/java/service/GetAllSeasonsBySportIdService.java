@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Return list of seasons based on sport_id
- * @author Dator
+ * @author David Sjöblom
  */
 public class GetAllSeasonsBySportIdService {
     private DbConn dbConn;
@@ -26,7 +26,8 @@ public class GetAllSeasonsBySportIdService {
         }
         else{
             this.dbConn.open();
-            List<Season> list = (List<Season>) broker.getSeasonBroker().findAllSQL("SELECT * FROM seasons WHERE sport_id = ?",Integer.toString(id));
+            List<Season> list = (List<Season>) broker.getSeasonBroker()
+                    .findAllSQL("SELECT * FROM seasons WHERE sport_id = ?",Integer.toString(id));
             this.dbConn.close();
             return list;
         }

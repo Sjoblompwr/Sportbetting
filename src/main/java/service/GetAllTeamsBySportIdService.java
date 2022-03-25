@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  *
- * @author Dator
+ * @author David Sjöblom
  */
 public class GetAllTeamsBySportIdService {
     private DbConn dbConn;

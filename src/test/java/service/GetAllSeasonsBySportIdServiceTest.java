@@ -66,7 +66,7 @@ public class GetAllSeasonsBySportIdServiceTest{
         GetAllSeasonsBySportIdService service = new GetAllSeasonsBySportIdService();
         service.init(dbConn,broker);
         service.execute(id);
-        verify(broker.getSeasonBroker(),times(1)).findAll();
+        verify(broker.getSeasonBroker(),times(1)).findAllSQL("SELECT * FROM seasons WHERE sport_id = ?","1");
     }
     private Broker getMockedBrokerFactory() { 
         SeasonBroker seasonBroker = mock(SeasonBroker.class); 
@@ -80,7 +80,7 @@ public class GetAllSeasonsBySportIdServiceTest{
         Season season = mock(Season.class);
         List <Season> seasons = new ArrayList<>();
         seasons.add(season);
-        when(seasonBroker.findAll()).thenReturn(seasons); 
+        when(seasonBroker.findAllSQL("SELECT * FROM seasons WHERE sport_id = ?","1")).thenReturn(seasons); 
         return broker; 
     } 
 }

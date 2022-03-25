@@ -6,7 +6,6 @@ package service;
 
 import Broker.Broker;
 import db.DbConn;
-import domain.League;
 import java.util.List;
 
 /**
@@ -26,7 +25,8 @@ public class GetAllLeaguesBySeasonIdService {
         }
         else{
             this.dbConn.open();
-            List<League> list = (List<League>) broker.getLeagueBroker().findAllSQL("SELECT * FROM leagues WHERE season_id = ?", Integer.toString(id));
+            List<League> list = (List<League>) broker.getLeagueBroker()
+                    .findAllSQL("SELECT * FROM leagues WHERE season_id = ?", Integer.toString(id));
             this.dbConn.close();
             return list;
         }
