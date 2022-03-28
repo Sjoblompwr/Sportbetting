@@ -13,19 +13,27 @@ import domain.League;
  *
  * @author David Sjöblom
  */
-public class AddNewLeagueForSeasonService {    
+public class AddNewLeagueForSeasonService {
+
     private DbConn dbConn;
     private Broker broker;
-    public void init(DbConn dbConn, Broker broker){
+
+    public void init(DbConn dbConn, Broker broker) {
         this.dbConn = dbConn;
-        this.broker =   broker;
+        this.broker = broker;
     }
-     public boolean execute(int id,String name) throws ExceptionClass{
-        if(id < 1){
-            return false;
+
+    public boolean execute(int id, String name) throws ExceptionClass {
+        if (dbConn == null) {
+            throw new NullPointerException("Database has not been assigned/opened.");
         }
-        else{
-            League league =  (League) broker.getLeagueBroker().create();
+        if (broker == null) {
+            throw new NullPointerException("Broker has not been initialized. (null)");
+        }
+        if (id < 1) {
+            return false;
+        } else {
+            League league = (League) broker.getLeagueBroker().create();
             league.setName(name);
             league.setSeasonId(id);
             this.dbConn.open();

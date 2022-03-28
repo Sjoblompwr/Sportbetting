@@ -16,37 +16,45 @@ import java.util.List;
  * @author David Sjöblom
  */
 public class GetAllTeamsBySportIdService {
+
     private DbConn dbConn;
     private Broker broker;
-    public void init(DbConn dbConn,Broker broker){
+
+    public void init(DbConn dbConn, Broker broker) {
         this.dbConn = dbConn;
         this.broker = broker;
     }
-    public  <Team>List execute(int id){ 
-        if(id < 1){
-            return null;
+
+    public <Team> List execute(int id) {
+        if (dbConn == null) {
+            throw new NullPointerException("Database has not been assigned/opened.");
         }
-        else{
-            GetAllSeasonsBySportIdService getAllSeasonsBySportId = 
-                                            new GetAllSeasonsBySportIdService();
-            getAllSeasonsBySportId.init(this.dbConn,this.broker);
+        if (broker == null) {
+            throw new NullPointerException("Broker has not been initialized. (null)");
+        }
+        if (id < 1) {
+            return null;
+        } else {
+            GetAllSeasonsBySportIdService getAllSeasonsBySportId
+                    = new GetAllSeasonsBySportIdService();
+            getAllSeasonsBySportId.init(this.dbConn, this.broker);
             List<Season> seasons = getAllSeasonsBySportId.execute(id);
 
             List<League> leagues = new ArrayList<>();
             List<Team> teams = new ArrayList<>();
 
-            GetAllLeaguesBySeasonIdService getAllLeaguesBySeasonId = 
-                                            new GetAllLeaguesBySeasonIdService();
-            getAllLeaguesBySeasonId.init(this.dbConn,this.broker);
+            GetAllLeaguesBySeasonIdService getAllLeaguesBySeasonId
+                    = new GetAllLeaguesBySeasonIdService();
+            getAllLeaguesBySeasonId.init(this.dbConn, this.broker);
 
-            for(Season s: seasons){
+            for (Season s : seasons) {
                 leagues.addAll(getAllLeaguesBySeasonId.execute(s.getId()));
             }
 
-            GetAllTeamsByLeagueIdService getAllTeamsByLeagueId = 
-                                            new GetAllTeamsByLeagueIdService();
-            getAllTeamsByLeagueId.init(this.dbConn,this.broker);
-            for(League l: leagues){
+            GetAllTeamsByLeagueIdService getAllTeamsByLeagueId
+                    = new GetAllTeamsByLeagueIdService();
+            getAllTeamsByLeagueId.init(this.dbConn, this.broker);
+            for (League l : leagues) {
                 teams.addAll(getAllTeamsByLeagueId.execute(l.getId()));
             }
 

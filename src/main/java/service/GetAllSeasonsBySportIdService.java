@@ -11,23 +11,32 @@ import java.util.List;
 
 /**
  * Return list of seasons based on sport_id
+ *
  * @author David Sjöblom
  */
 public class GetAllSeasonsBySportIdService {
+
     private DbConn dbConn;
     private Broker broker;
-    public void init(DbConn dbConn,Broker broker){
+
+    public void init(DbConn dbConn, Broker broker) {
         this.dbConn = dbConn;
         this.broker = broker;
     }
-    public <Sport> List execute(int id){
-        if(id < 1){
-            return null;
+
+    public <Sport> List execute(int id) {
+        if (dbConn == null) {
+            throw new NullPointerException("Database has not been assigned/opened.");
         }
-        else{
+        if (broker == null) {
+            throw new NullPointerException("Broker has not been initialized. (null)");
+        }
+        if (id < 1) {
+            return null;
+        } else {
             this.dbConn.open();
             List<Season> list = (List<Season>) broker.getSeasonBroker()
-                    .findAllSQL("SELECT * FROM seasons WHERE sport_id = ?",Integer.toString(id));
+                    .findAllSQL("SELECT * FROM seasons WHERE sport_id = ?", Integer.toString(id));
             this.dbConn.close();
             return list;
         }

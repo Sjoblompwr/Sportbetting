@@ -11,40 +11,50 @@ import domain.Season;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 /**
- * Gets all Season by SportId & gets all Leagues with every SeasonId
- * If leagues exist, return matches otherwise null.
+ * Gets all Season by SportId & gets all Leagues with every SeasonId If leagues
+ * exist, return matches otherwise null.
+ *
  * @author David Sjöblom
  */
 public class GetAllMatchesInSportService {
+
     private DbConn dbConn;
     private Broker broker;
-    public void init(DbConn dbConn,Broker broker){
+
+    public void init(DbConn dbConn, Broker broker) {
         this.dbConn = dbConn;
         this.broker = broker;
     }
-    public <Match>List execute(int id){
-        if(id < 1){
-            return null;
+
+    public <Match> List execute(int id) {
+        if (dbConn == null) {
+            throw new NullPointerException("Database has not been assigned/opened.");
         }
-        else{
-            List <Season>  seasons;
-            List <League> leagues = new ArrayList<>();
-            List <Match> matches = new ArrayList<>();
+        if (broker == null) {
+            throw new NullPointerException("Broker has not been initialized. (null)");
+        }
+        if (id < 1) {
+            return null;
+        } else {
+            List<Season> seasons;
+            List<League> leagues = new ArrayList<>();
+            List<Match> matches = new ArrayList<>();
 
             GetAllSeasonsBySportIdService getAllSeasonsBySportId = new GetAllSeasonsBySportIdService();
-            getAllSeasonsBySportId.init(this.dbConn,this.broker);
+            getAllSeasonsBySportId.init(this.dbConn, this.broker);
             seasons = getAllSeasonsBySportId.execute(id);
 
             GetAllLeaguesBySeasonIdService getAllLeaguesBySeasonId = new GetAllLeaguesBySeasonIdService();
-            getAllLeaguesBySeasonId.init(this.dbConn,this.broker);
-            for(Season s: seasons){
+            getAllLeaguesBySeasonId.init(this.dbConn, this.broker);
+            for (Season s : seasons) {
                 leagues.addAll(getAllLeaguesBySeasonId.execute(s.getId()));
             }
             //Avoid opening db if input is zero/null.
-            if(!leagues.isEmpty()){
+            if (!leagues.isEmpty()) {
                 this.dbConn.open();
-                for(League l: leagues){
+                for (League l : leagues) {
                     matches.addAll((Collection<? extends Match>) broker.getMatchBroker().findAllSQL("SELECT * FROM matches WHERE league_id = ?", Integer.toString(l.getId())));
                 }
                 this.dbConn.close();
