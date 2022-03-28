@@ -1,38 +1,29 @@
 package service;
 
-import Broker.Broker;
-import db.DbConn;
+import domain.ExceptionClass;
 import domain.Team;
 
 /**
  *
  * @author Dator
  */
-public class GetTeamByIdService {
+public class GetTeamByIdService extends BaseService<Team> {
 
-    private DbConn dbConn;
-    private Broker broker;
+    private final int id;
 
-    public void init(DbConn dbConn, Broker broker) {
-        this.dbConn = dbConn;
-        this.broker = broker;
-    }
-
-    public Team execute(int id) {
-        if (dbConn == null) {
-            throw new NullPointerException("Database has not been assigned/opened.");
-        }
-        if (broker == null) {
-            throw new NullPointerException("Broker has not been initialized. (null)");
-        }
-        Team team;
+    public GetTeamByIdService(int id) throws ExceptionClass {
         if (id < 1) {
-            return null;
+            throw new ExceptionClass("id needs to be above 0");
         } else {
-            this.dbConn.open();
-            team = (Team) broker.getTeamBroker().findById(id);
-            this.dbConn.close();
-            return team;
+            this.id = id;
         }
     }
+
+    @Override
+    public Team execute() {
+        Team team;
+        team = (Team) broker.getTeamBroker().findById(id);
+        return team;
+    }
+
 }

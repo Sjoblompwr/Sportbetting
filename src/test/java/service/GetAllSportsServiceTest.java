@@ -34,7 +34,7 @@ public class GetAllSportsServiceTest {
         Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
         DbConn conn = mock(DbConn.class); 
         GetAllSportsService service = new GetAllSportsService();
-        service.init(conn, broker);
+        service.init(broker);
         service.execute();
         verify(broker.getSportBroker(),times(1)).findAll();
                 
@@ -49,7 +49,7 @@ public class GetAllSportsServiceTest {
         Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
         DbConn conn = mock(DbConn.class); 
         GetAllSportsService service = new GetAllSportsService();
-        service.init(conn, broker);
+        service.init(broker);
         assertNotNull(service.execute());     
     }
     

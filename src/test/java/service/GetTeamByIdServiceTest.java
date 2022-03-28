@@ -32,7 +32,7 @@ public class GetTeamByIdServiceTest {
         Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
         DbConn conn = mock(DbConn.class); 
         GetTeamByIdService service = new GetTeamByIdService();
-        service.init(conn, broker);
+        service.init(broker);
         service.execute(id);
         verify(broker.getTeamBroker(),times(1)).findById(1);
     }
@@ -47,7 +47,7 @@ public class GetTeamByIdServiceTest {
         Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
         DbConn conn = mock(DbConn.class); 
         GetTeamByIdService service = new GetTeamByIdService();
-        service.init(conn, broker);
+        service.init(broker);
         assertNull(service.execute(id));
         verify(broker.getTeamBroker(),times(0)).findById(0);
     }

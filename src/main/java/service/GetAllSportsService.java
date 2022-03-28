@@ -6,32 +6,18 @@ package service;
 
 import Broker.Broker;
 import db.DbConn;
+import domain.Sport;
 import java.util.List;
 
 /**
  *
  * @author David Sjöblom
  */
-public class GetAllSportsService {
+public class GetAllSportsService extends BaseService<List<Sport>> {
 
-    private DbConn dbConn;
-    private Broker broker;
-
-    public void init(DbConn dbConn, Broker broker) {
-        this.dbConn = dbConn;
-        this.broker = broker;
-    }
-
-    public <Sport> List execute() {
-        if (dbConn == null) {
-            throw new NullPointerException("Database has not been assigned/opened.");
-        }
-        if (broker == null) {
-            throw new NullPointerException("Broker has not been initialized. (null)");
-        }
-        this.dbConn.open();
+    @Override
+    public List<Sport> execute() {
         List<Sport> list = (List<Sport>) broker.getSportBroker().findAll();
-        this.dbConn.close();
         return list;
     }
 }
