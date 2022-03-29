@@ -6,6 +6,7 @@ package service;
 
 import Broker.Broker;
 import db.DbConn;
+import domain.BetObject;
 
 /**
  *

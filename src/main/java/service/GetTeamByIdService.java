@@ -22,7 +22,7 @@ public class GetTeamByIdService extends BaseService<Team> {
     @Override
     public Team execute() {
         Team team;
-        team = (Team) broker.getTeamBroker().findById(id);
+        team = (Team) this.getBroker().getTeamBroker().findById(id);
         return team;
     }
 

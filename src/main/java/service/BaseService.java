@@ -13,14 +13,18 @@ import db.DbConn;
  */
 public abstract class BaseService<T> implements SportstatsService<T> {
 
-    protected Broker broker;
+    private Broker broker;
 
     @Override
-    public void init(Broker broker) {
+    public final void init(Broker broker) {
         if (broker == null) {
-            throw new NullPointerException("Broker has not been initialized. (null)");
+            throw new NullPointerException("Broker may not have been initialized.");
         }
         this.broker = broker;
+    }
+    
+    protected Broker getBroker(){
+        return broker;
     }
 
     @Override

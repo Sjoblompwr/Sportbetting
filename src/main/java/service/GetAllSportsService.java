@@ -17,7 +17,7 @@ public class GetAllSportsService extends BaseService<List<Sport>> {
 
     @Override
     public List<Sport> execute() {
-        List<Sport> list = (List<Sport>) broker.getSportBroker().findAll();
+        List<Sport> list = (List<Sport>) this.getBroker().getSportBroker().findAll();
         return list;
     }
 }

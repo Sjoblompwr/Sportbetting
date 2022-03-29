@@ -7,7 +7,10 @@ package service;
 import Broker.Broker;
 import Broker.TeamBroker;
 import db.DbConn;
+import domain.ExceptionClass;
 import domain.Team;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -30,10 +33,14 @@ public class GetTeamByIdServiceTest {
         System.out.println("execute_behaviour");
         int id = 1;
         Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
-        DbConn conn = mock(DbConn.class); 
-        GetTeamByIdService service = new GetTeamByIdService();
-        service.init(broker);
-        service.execute(id);
+        GetTeamByIdService service = null;
+        try {
+            service = new GetTeamByIdService(id);
+        } catch (ExceptionClass ex) {
+            System.out.println(ex);
+        }
+        ServiceRunner serviceRunner = new ServiceRunner(service);
+        serviceRunner.execute();
         verify(broker.getTeamBroker(),times(1)).findById(1);
     }
     /**
@@ -46,9 +53,15 @@ public class GetTeamByIdServiceTest {
         int id = 0;
         Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
         DbConn conn = mock(DbConn.class); 
-        GetTeamByIdService service = new GetTeamByIdService();
-        service.init(broker);
-        assertNull(service.execute(id));
+        GetTeamByIdService service = null;
+        try {
+            service = new GetTeamByIdService(id);
+        } catch (ExceptionClass ex) {
+            System.out.println(ex);
+        }
+        ServiceRunner serviceRunner = new ServiceRunner(service);
+        serviceRunner.execute();
+        assertNull(serviceRunner.execute());
         verify(broker.getTeamBroker(),times(0)).findById(0);
     }
    

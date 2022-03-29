@@ -7,6 +7,7 @@ package service;
 
 import Broker.Broker;
 import db.DbConn;
+import domain.BetObject;
 
 /**
  *
@@ -17,14 +18,21 @@ public class ServiceRunner<T> {
     public ServiceRunner(SportstatsService<T> service){
         this.service = service;
     }
+
     
     public T execute(){
         DbConn dbConn = DbConn.getInstance();
-        dbConn.open();
         service.init(new Broker());
-        T result = service.execute();
-        dbConn.close();
+        T result;
+        try{
+            dbConn.open();   
+            result = service.execute();
+        }catch(Exception e){
+            throw e;
+        }
+        finally{
+            dbConn.close();
+        }
         return result;
     }
-    
 }
