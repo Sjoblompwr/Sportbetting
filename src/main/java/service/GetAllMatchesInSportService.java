@@ -4,9 +4,8 @@
  */
 package service;
 
-import Broker.Broker;
-import db.DbConn;
 import domain.League;
+import domain.Match;
 import domain.Season;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,48 +17,43 @@ import java.util.List;
  *
  * @author David Sjöblom
  */
-public class GetAllMatchesInSportService {
+public class GetAllMatchesInSportService extends BaseService<List<Match>> {
 
-    private DbConn dbConn;
-    private Broker broker;
+    private int id;
 
-    public void init(DbConn dbConn, Broker broker) {
-        this.dbConn = dbConn;
-        this.broker = broker;
+    public GetAllMatchesInSportService(int id) {
+        setId(id);
     }
 
-    public <Match> List execute(int id) {
-        if (dbConn == null) {
-            throw new NullPointerException("Database has not been assigned/opened.");
-        }
-        if (broker == null) {
-            throw new NullPointerException("Broker has not been initialized. (null)");
-        }
+    public void setId(int id) {
         if (id < 1) {
-            return null;
-        } else {
-            List<Season> seasons;
-            List<League> leagues = new ArrayList<>();
-            List<Match> matches = new ArrayList<>();
-
-            GetAllSeasonsBySportIdService getAllSeasonsBySportId = new GetAllSeasonsBySportIdService();
-            getAllSeasonsBySportId.init(this.dbConn, this.broker);
-            seasons = getAllSeasonsBySportId.execute(id);
-
-            GetAllLeaguesBySeasonIdService getAllLeaguesBySeasonId = new GetAllLeaguesBySeasonIdService();
-            getAllLeaguesBySeasonId.init(this.dbConn, this.broker);
-            for (Season s : seasons) {
-                leagues.addAll(getAllLeaguesBySeasonId.execute(s.getId()));
-            }
-            //Avoid opening db if input is zero/null.
-            if (!leagues.isEmpty()) {
-                this.dbConn.open();
-                for (League l : leagues) {
-                    matches.addAll((Collection<? extends Match>) broker.getMatchBroker().findAllSQL("SELECT * FROM matches WHERE league_id = ?", Integer.toString(l.getId())));
-                }
-                this.dbConn.close();
-            }
-            return matches;
+            throw new IllegalArgumentException("Id must be above 0.");
         }
+        this.id = id;
+    }
+
+    @Override
+    public List<Match> execute() {
+        List<Season> seasons;
+        List<League> leagues = new ArrayList<>();
+        List<Match> matches = new ArrayList<>();
+
+        GetAllSeasonsBySportIdService getAllSeasonsBySportId = new GetAllSeasonsBySportIdService(id);
+        getAllSeasonsBySportId.init(getBroker());
+        seasons = getAllSeasonsBySportId.execute();
+
+        GetAllLeaguesBySeasonIdService getAllLeaguesBySeasonId = new GetAllLeaguesBySeasonIdService(id);
+        getAllLeaguesBySeasonId.init(getBroker());
+        for (Season s : seasons) {
+            getAllLeaguesBySeasonId.setId(s.getId());
+            leagues.addAll(getAllLeaguesBySeasonId.execute());
+        }
+        //Avoid opening db if input is zero/null.
+        if (!leagues.isEmpty()) {
+            for (League l : leagues) {
+                matches.addAll((Collection<? extends Match>) getBroker().getMatchBroker().findAllSQL("SELECT * FROM matches WHERE league_id = ?", Integer.toString(l.getId())));
+            }
+        }
+        return matches;
     }
 }

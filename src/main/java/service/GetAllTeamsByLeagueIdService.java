@@ -1,40 +1,29 @@
 package service;
 
-import Broker.Broker;
-import db.DbConn;
+import domain.Team;
 import java.util.List;
 
 /**
  *
- * @author Dator
+ * @author David Sjöblom
  */
-public class GetAllTeamsByLeagueIdService {
+public class GetAllTeamsByLeagueIdService extends BaseService<List<Team>>{
 
-    private DbConn dbConn;
-    private Broker broker;
-
-    public void init(DbConn dbConn, Broker broker) {
-        this.dbConn = dbConn;
-        this.broker = broker;
-
+    private int id;
+    public GetAllTeamsByLeagueIdService(int id){
+        setId(id);
     }
-
-    public <Team> List execute(int id) {
-        if (dbConn == null) {
-            throw new NullPointerException("Database has not been assigned/opened.");
+    public void setId(int id){
+        if(id < 1){
+            throw new IllegalArgumentException("Id must be above 1.");
         }
-        if (broker == null) {
-            throw new NullPointerException("Broker has not been initialized. (null)");
-        }
-        if (id < 1) {
-            return null;
-        } else {
-            this.dbConn.open();
-            List<Team> list = (List<Team>) broker.getTeamBroker()
-                    .findAllSQL("SELECT * FROM teams WHERE league_id = ?",
-                             Integer.toString(id));
-            this.dbConn.close();
-            return list;
-        }
+        this.id = id;
+    }
+    @Override
+    public List<Team> execute() {
+        List<Team> list = (List<Team>) getBroker().getTeamBroker()
+                .findAllSQL("SELECT * FROM teams WHERE league_id = ?",
+                         Integer.toString(id));
+        return list;
     }
 }

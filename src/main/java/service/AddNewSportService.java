@@ -4,8 +4,6 @@
  */
 package service;
 
-import Broker.Broker;
-import db.DbConn;
 import domain.ExceptionClass;
 import domain.Sport;
 
@@ -13,28 +11,27 @@ import domain.Sport;
  *
  * @author David Sjöblom
  */
-public class AddNewSportService {
+public class AddNewSportService extends BaseService<Boolean> {
 
-    private DbConn dbConn;
-    private Broker broker;
+    private String name;
 
-    public void init(DbConn dbConn, Broker broker) {
-        this.dbConn = dbConn;
-        this.broker = broker;
+    public AddNewSportService(String name) {
+        setName(name);
+    }
+    //Errorhandling for the name attribute is lower down in the stack.(CommonFunctions)
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public boolean execute(String name) throws ExceptionClass {
-        if (dbConn == null) {
-            throw new NullPointerException("Database has not been assigned/opened.");
+    @Override
+    public Boolean execute() {
+        Sport sport = getBroker().getSportBroker().create();
+        try {
+            sport.setName(name);
+        } catch (ExceptionClass ex) {
+            throw new IllegalArgumentException(ex.getMessage());
         }
-        if (broker == null) {
-            throw new NullPointerException("Broker has not been initialized. (null)");
-        }
-        this.dbConn.open();
-        Sport sport = broker.getSportBroker().create();
-        sport.setName(name);
         Boolean bool = sport.insert();
-        this.dbConn.close();
         return bool;
     }
 }

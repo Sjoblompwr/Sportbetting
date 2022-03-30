@@ -69,7 +69,7 @@ public class Sport implements BetObject {
      * @return 
      * @throws domain.ExceptionClass
      */
-    public boolean insert()  throws ExceptionClass{
+    public boolean insert() {
 //        if (this.getId() == 0) {
 //          throw new NullPointerException("Sport id (name has not been selected) has not been assigned");
 //        }

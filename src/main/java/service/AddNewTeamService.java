@@ -4,42 +4,62 @@
  */
 package service;
 
-import Broker.Broker;
-import db.DbConn;
 import domain.ExceptionClass;
 import domain.Team;
 
 /**
  *
- * @author Dator
+ * @author David Sjöblom
  */
-public class AddNewTeamService {
+public class AddNewTeamService extends BaseService<Boolean> {
 
-    private DbConn dbConn;
-    private Broker broker;
+    private int sport_id;
+    private int season_id;
+    private int league_id;
+    private String name;
 
-    public void init(DbConn dbConn, Broker broker) {
-        this.dbConn = dbConn;
-        this.broker = broker;
+    public AddNewTeamService(int sport_id, int season_id, int league_id, String name) {
+        setId(sport_id, "sport");
+        setId(season_id, "season");
+        setId(league_id, "league");
+        setName(name);
     }
 
-    public boolean execute(int sport_id, int season_id, int league_id, String name) throws ExceptionClass {
-        if (dbConn == null) {
-            throw new NullPointerException("Database has not been assigned/opened.");
-        }
-        if (broker == null) {
-            throw new NullPointerException("Broker has not been initialized. (null)");
-        }
-        if (sport_id < 1 || season_id < 1 || league_id < 1) {
-            return false;
-        } else {
-            Team team = (Team) broker.getTeamBroker().create();
+    @Override
+    public Boolean execute() {
+        Team team = (Team) getBroker().getTeamBroker().create();
+        try {
             team.setName(name);
-            team.setLeagueId(league_id);
-            this.dbConn.open();
-            boolean bool = team.insert();
-            this.dbConn.close();
-            return bool;
+        } catch (ExceptionClass ex) {
+            throw new IllegalArgumentException(ex.toString());
         }
+        team.setLeagueId(league_id);
+        boolean bool = team.insert();
+        return bool;
+    }
+
+    /**
+     *
+     * @param id
+     * @param table must be league,sport,season otherwise there will be no
+     * input.
+     */
+    public void setId(int id, String table) {
+        table.toLowerCase();
+        if (id < 1) {
+            throw new IllegalArgumentException("Ids must be above 0.");
+        }
+        switch (table) {
+            case "league":
+                this.league_id = id;
+            case "sport":
+                this.sport_id = id;
+            case "season":
+                this.season_id = id;
+        }
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

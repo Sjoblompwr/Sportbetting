@@ -8,37 +8,41 @@ import Broker.Broker;
 import db.DbConn;
 import domain.ExceptionClass;
 import domain.League;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author David Sjöblom
  */
-public class AddNewLeagueForSeasonService {
+public class AddNewLeagueForSeasonService extends BaseService<Boolean>{
 
-    private DbConn dbConn;
-    private Broker broker;
-
-    public void init(DbConn dbConn, Broker broker) {
-        this.dbConn = dbConn;
-        this.broker = broker;
+    private int id;
+    private String name;
+    public AddNewLeagueForSeasonService(int id,String name){
+        if(id<1){
+            throw new IllegalArgumentException("id must be above 0");
+        }
+        if(name == null){
+            throw new IllegalArgumentException("Name is null");
+        }
+        this.id = id;
+        this.name = name;
     }
 
-    public boolean execute(int id, String name) throws ExceptionClass {
-        if (dbConn == null) {
-            throw new NullPointerException("Database has not been assigned/opened.");
-        }
-        if (broker == null) {
-            throw new NullPointerException("Broker has not been initialized. (null)");
-        }
+    @Override
+    public Boolean execute(){
         if (id < 1) {
             return false;
         } else {
-            League league = (League) broker.getLeagueBroker().create();
-            league.setName(name);
+            League league = (League) getBroker().getLeagueBroker().create();
+            try {
+                league.setName(name);
+            } catch (ExceptionClass ex) {
+                System.out.println(ex);
+            }
             league.setSeasonId(id);
-            this.dbConn.open();
             boolean bool = league.insert();
-            this.dbConn.close();
             return bool;
         }
     }

@@ -4,50 +4,47 @@
  */
 package service;
 
-import Broker.Broker;
-import db.DbConn;
+import domain.League;
 import domain.Season;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
- * @author Dator
+ * @author David Sjöblom
  */
-public class GetAllLeaguesBySportIdService {
+public class GetAllLeaguesBySportIdService extends BaseService<List<League>> {
 
-    private DbConn dbConn;
-    private Broker broker;
+    private int id;
 
-    public void init(DbConn dbConn, Broker broker) {
-        this.dbConn = dbConn;
-        this.broker = broker;
+    public GetAllLeaguesBySportIdService(int id) {
+        setId(id);
     }
 
-    public <League> List execute(int id) {
-        if (dbConn == null) {
-            throw new NullPointerException("Database has not been assigned/opened.");
-        }
-        if (broker == null) {
-            throw new NullPointerException("Broker has not been initialized. (null)");
-        }
+    public void setId(int id) {
         if (id < 1) {
-            return null;
-        } else {
-            List<Season> seasons;
-            List<League> leagues = new ArrayList<>();
-
-            GetAllSeasonsBySportIdService getAllSeasonsBySportId = new GetAllSeasonsBySportIdService();
-            getAllSeasonsBySportId.init(this.dbConn, this.broker);
-            seasons = getAllSeasonsBySportId.execute(id);
-
-            GetAllLeaguesBySeasonIdService getAllLeaguesBySeasonId = new GetAllLeaguesBySeasonIdService();
-            getAllLeaguesBySeasonId.init(this.dbConn, this.broker);
-            for (Season s : seasons) {
-                leagues.addAll(getAllLeaguesBySeasonId.execute(s.getId()));
-            }
-
-            return leagues;
+            throw new IllegalArgumentException("Id must be above 0.");
         }
+        this.id = id;
     }
+
+    @Override
+    public List<League> execute() {
+        List<Season> seasons;
+        List<League> leagues = new ArrayList<>();
+
+        GetAllSeasonsBySportIdService getAllSeasonsBySportId = new GetAllSeasonsBySportIdService(id);
+        getAllSeasonsBySportId.init(getBroker());
+        seasons = getAllSeasonsBySportId.execute();
+
+        GetAllLeaguesBySeasonIdService getAllLeaguesBySeasonId = new GetAllLeaguesBySeasonIdService(id);
+        getAllLeaguesBySeasonId.init(getBroker());
+        for (Season s : seasons) {
+            getAllLeaguesBySeasonId.setId(s.getId());
+            leagues.addAll(getAllLeaguesBySeasonId.execute());
+        }
+
+        return leagues;
+    }
+
 }

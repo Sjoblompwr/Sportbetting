@@ -4,8 +4,6 @@
  */
 package service;
 
-import Broker.Broker;
-import db.DbConn;
 import domain.Season;
 import java.util.List;
 
@@ -14,31 +12,24 @@ import java.util.List;
  *
  * @author David Sjöblom
  */
-public class GetAllSeasonsBySportIdService {
+public class GetAllSeasonsBySportIdService extends BaseService<List<Season>> {
 
-    private DbConn dbConn;
-    private Broker broker;
+    private int id;
 
-    public void init(DbConn dbConn, Broker broker) {
-        this.dbConn = dbConn;
-        this.broker = broker;
+    public GetAllSeasonsBySportIdService(int id) {
+        setId(id);
     }
 
-    public <Sport> List execute(int id) {
-        if (dbConn == null) {
-            throw new NullPointerException("Database has not been assigned/opened.");
-        }
-        if (broker == null) {
-            throw new NullPointerException("Broker has not been initialized. (null)");
-        }
+    public void setId(int id) {
         if (id < 1) {
-            return null;
-        } else {
-            this.dbConn.open();
-            List<Season> list = (List<Season>) broker.getSeasonBroker()
-                    .findAllSQL("SELECT * FROM seasons WHERE sport_id = ?", Integer.toString(id));
-            this.dbConn.close();
-            return list;
+            throw new IllegalArgumentException("Id must be above 0.");
         }
+    }
+
+    @Override
+    public List<Season> execute() {
+        List<Season> list = (List<Season>) getBroker().getSeasonBroker()
+                .findAllSQL("SELECT * FROM seasons WHERE sport_id = ?", Integer.toString(id));
+        return list;
     }
 }
