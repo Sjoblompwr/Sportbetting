@@ -35,10 +35,11 @@ public class GetAllTeamsByLeagueIdServiceTest {
         System.out.println("execute_ErrorHandling");
         int id = 0;
         Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
-        DbConn conn = mock(DbConn.class); 
-        GetAllTeamsByLeagueIdService service = new GetAllTeamsByLeagueIdService();
-        service.init(conn, broker);
-        assertNull(service.execute(id));
+        assertThrows(IllegalArgumentException.class,() -> {
+            GetAllTeamsByLeagueIdService service = new GetAllTeamsByLeagueIdService(id);
+            service.init(broker);
+            assertNull(service.execute());
+        });
         verify(broker.getTeamBroker(),times(0))
                 .findAllSQL("SELECT * FROM teams WHERE league_id = ?","0");
     }
@@ -51,10 +52,9 @@ public class GetAllTeamsByLeagueIdServiceTest {
         System.out.println("executeBehaviour");
         int id = 1;
         Broker broker = getMockedBrokerFactoryWithBrokersSetup(); 
-        DbConn conn = mock(DbConn.class); 
-        GetAllTeamsByLeagueIdService service = new GetAllTeamsByLeagueIdService();
-        service.init(conn, broker);
-        assertNotNull(service.execute(id));
+        GetAllTeamsByLeagueIdService service = new GetAllTeamsByLeagueIdService(id);
+        service.init(broker);
+        assertNotNull(service.execute());
         verify(broker.getTeamBroker(),times(1))
                 .findAllSQL("SELECT * FROM teams WHERE league_id = ?","1");
     }

@@ -24,6 +24,7 @@ public class GetAllSeasonsBySportIdService extends BaseService<List<Season>> {
         if (id < 1) {
             throw new IllegalArgumentException("Id must be above 0.");
         }
+        this.id = id;
     }
 
     @Override

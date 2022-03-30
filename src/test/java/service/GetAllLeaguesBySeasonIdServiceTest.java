@@ -19,55 +19,59 @@ import static org.mockito.Mockito.when;
 
 /**
  *
- * @author Dator
+ * @author David Sjöblom
  */
 public class GetAllLeaguesBySeasonIdServiceTest {
+
     /**
-     * Test of execute method, of class GetAllLeaguesBySeasonIdService.
-     * Checking if method calls correct methods when input is correct.
+     * Test of execute method, of class GetAllLeaguesBySeasonIdService. Checking
+     * if method calls correct methods when input is correct.
      */
     @Test
     public void testExecute_behaviour() {
         System.out.println("execute_behaviour");
         int id = 1;
-        GetAllLeaguesBySeasonIdService service = new GetAllLeaguesBySeasonIdService();
-        DbConn dbConn = mock(DbConn.class);
+        GetAllLeaguesBySeasonIdService service = new GetAllLeaguesBySeasonIdService(id);
         Broker broker = getMockedBrokerFactoryWithBrokersSetup();
-        service.init(dbConn, broker);
-        assertNotNull(service.execute(id));
-        verify(broker.getLeagueBroker(),times(1)).findAllSQL("SELECT * FROM leagues WHERE season_id = ?", "1");
-        
+        service.init(broker);
+        assertNotNull(service.execute());
+        verify(broker.getLeagueBroker(), times(1)).findAllSQL("SELECT * FROM leagues WHERE season_id = ?", "1");
+
     }
-        /**
-     * Test of execute method, of class GetAllLeaguesBySeasonIdService.
-     * Checking if method calls correct methods when input is incorrect.
+
+    /**
+     * Test of execute method, of class GetAllLeaguesBySeasonIdService. Checking
+     * if method calls correct methods when input is incorrect.
      */
     @Test
     public void testExecute_getNullIfBadInput() {
         System.out.println("execute_getNullIfBadInput");
         int id = 0;
-        GetAllLeaguesBySeasonIdService service = new GetAllLeaguesBySeasonIdService();
-        DbConn dbConn = mock(DbConn.class);
         Broker broker = getMockedBrokerFactoryWithBrokersSetup();
-        service.init(dbConn, broker);
-        assertNull(service.execute(id));
-        verify(broker.getLeagueBroker(),times(0)).findAllSQL("SELECT * FROM leagues WHERE season_id = ?", "0");
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            GetAllLeaguesBySeasonIdService service = new GetAllLeaguesBySeasonIdService(id);
+            service.init(broker);
+            service.execute();
+        });
         
+        verify(broker.getLeagueBroker(), times(0)).findAllSQL("SELECT * FROM leagues WHERE season_id = ?", "0");
+
     }
-        
-    private Broker getMockedBrokerFactory() { 
-        LeagueBroker leagueBroker = mock(LeagueBroker.class); 
-        Broker broker = mock(Broker.class); 
-        when(broker.getLeagueBroker()).thenReturn(leagueBroker); 
-        return broker; 
-    } 
-    private Broker getMockedBrokerFactoryWithBrokersSetup() { 
+
+    private Broker getMockedBrokerFactory() {
+        LeagueBroker leagueBroker = mock(LeagueBroker.class);
+        Broker broker = mock(Broker.class);
+        when(broker.getLeagueBroker()).thenReturn(leagueBroker);
+        return broker;
+    }
+
+    private Broker getMockedBrokerFactoryWithBrokersSetup() {
         Broker broker = getMockedBrokerFactory();
-        LeagueBroker leagueBroker =  broker.getLeagueBroker();
+        LeagueBroker leagueBroker = broker.getLeagueBroker();
         League league = mock(League.class);
-        List <League> leagues = new ArrayList<>();
+        List<League> leagues = new ArrayList<>();
         leagues.add(league);
-        when(leagueBroker.findAllSQL("SELECT * FROM leagues WHERE season_id = ?", "1")).thenReturn(leagues); 
-        return broker; 
-    } 
+        when(leagueBroker.findAllSQL("SELECT * FROM leagues WHERE season_id = ?", "1")).thenReturn(leagues);
+        return broker;
+    }
 }

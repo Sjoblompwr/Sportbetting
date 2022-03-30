@@ -19,12 +19,11 @@ import static org.mockito.Mockito.when;
  *
  * @author David Sjöblom
  */
-public class AddNewTeamServiceTest{
-
+public class AddNewTeamServiceTest {
 
     /**
-     * Test of execute method, of class AddNewTeamService.
-     * Checking the right method is called if the input is accepted.
+     * Test of execute method, of class AddNewTeamService. Checking the right
+     * method is called if the input is accepted.
      */
     @Test
     public void testExecute_behaviour() throws Exception {
@@ -33,16 +32,16 @@ public class AddNewTeamServiceTest{
         int season_id = 1;
         int team_id = 1;
         String name = "";
-        AddNewTeamService service = new AddNewTeamService();
-        DbConn dbConn = mock(DbConn.class);
+        AddNewTeamService service = new AddNewTeamService(sport_id, season_id, team_id, name);
         Broker broker = getMockedBrokerFactoryWithBrokersSetup();
-        service.init(dbConn, broker);
-        assertTrue(service.execute(sport_id, season_id, team_id, name));
-        verify(broker.getTeamBroker(),times(1)).create();
+        service.init(broker);
+        assertTrue(service.execute());
+        verify(broker.getTeamBroker(), times(1)).create();
     }
-        /**
-     * Test of execute method, of class AddNewTeamService.
-     * Making sure method return false if any Id is below one.
+
+    /**
+     * Test of execute method, of class AddNewTeamService. Making sure method
+     * return false if any Id is below one.
      */
     @Test
     public void testExecute_returnFalseIfIdInputBelowOne() throws Exception {
@@ -51,32 +50,35 @@ public class AddNewTeamServiceTest{
         int season_id = 1;
         int team_id = 1;
         String name = "";
-        AddNewTeamService service = new AddNewTeamService();
-        DbConn dbConn = mock(DbConn.class);
+        AddNewTeamService service = new AddNewTeamService(sport_id, season_id, team_id, name);
         Broker broker = getMockedBrokerFactoryWithBrokersSetup();
-        service.init(dbConn, broker);
-        assertTrue(service.execute(sport_id, season_id, team_id, name));
-        sport_id = 0;
-        assertFalse(service.execute(sport_id, season_id, team_id, name));
-        sport_id = 1;
-        season_id = 0;
-        assertFalse(service.execute(sport_id, season_id, team_id, name));
-        team_id = 0;
-        season_id = 1;
-        assertFalse(service.execute(sport_id, season_id, team_id, name));
+        service.init(broker);
+        assertTrue(service.execute());
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.setId(0, "sport");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+
+            service.setId(0, "season");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.setId(0, "team");
+        });
     }
-       private Broker getMockedBrokerFactory() { 
-        TeamBroker teamBroker = mock(TeamBroker.class); 
-        Broker broker = mock(Broker.class); 
-        when(broker.getTeamBroker()).thenReturn(teamBroker); 
-        return broker; 
-    } 
-    private Broker getMockedBrokerFactoryWithBrokersSetup() { 
+
+    private Broker getMockedBrokerFactory() {
+        TeamBroker teamBroker = mock(TeamBroker.class);
+        Broker broker = mock(Broker.class);
+        when(broker.getTeamBroker()).thenReturn(teamBroker);
+        return broker;
+    }
+
+    private Broker getMockedBrokerFactoryWithBrokersSetup() {
         Broker broker = getMockedBrokerFactory();
-        TeamBroker teamBroker =  broker.getTeamBroker();
+        TeamBroker teamBroker = broker.getTeamBroker();
         Team team = mock(Team.class);
-        when(teamBroker.create()).thenReturn(team); 
+        when(teamBroker.create()).thenReturn(team);
         when(team.insert()).thenReturn(Boolean.TRUE);
-        return broker; 
-    }  
+        return broker;
+    }
 }

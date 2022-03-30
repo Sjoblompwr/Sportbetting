@@ -19,7 +19,7 @@ public class GetAllLeaguesBySeasonIdService extends BaseService<List<League>>{
         setId(id);
     }
     public void setId(int id){
-        if(id < 0){
+        if(id < 1){
             throw new IllegalArgumentException("Id must be above 0.");
         }
         this.id = id;

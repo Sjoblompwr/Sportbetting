@@ -59,7 +59,7 @@ public class CommonFunctions {
      * useful error messages. Could be exchanged with a boolean return instead.
      */
     public static void setName(String name, Model model, int id) throws ExceptionClass {
-        name.trim();
+        name = name.trim();
         //Not sure if this regex code allows for whitespaces need to be tested,
         //but left unchecked until this text is removed.
         if (!name.matches("[a-zA-Z]+")) {

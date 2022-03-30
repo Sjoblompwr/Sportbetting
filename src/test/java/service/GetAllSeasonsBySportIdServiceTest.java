@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -33,10 +35,11 @@ public class GetAllSeasonsBySportIdServiceTest{
         System.out.println("execute_ReturnNull");
         int id = 0;
         Broker broker = getMockedBrokerFactoryWithBrokersSetup();
-        DbConn dbConn = mock(DbConn.class);
-        GetAllSeasonsBySportIdService service = new GetAllSeasonsBySportIdService();
-        service.init(dbConn,broker);
-        assertNull(service.execute(id));
+        Exception exception = assertThrows(IllegalArgumentException.class,()->{
+            GetAllSeasonsBySportIdService service = new GetAllSeasonsBySportIdService(id);
+            service.init(broker);
+        });
+        assertTrue("Id must be above 0.".contains(exception.getMessage()));
     }
         
     /**
@@ -48,10 +51,9 @@ public class GetAllSeasonsBySportIdServiceTest{
         System.out.println("execute_ReturnList");
         int id = 1;
         Broker broker = getMockedBrokerFactoryWithBrokersSetup();
-        DbConn dbConn = mock(DbConn.class);
-        GetAllSeasonsBySportIdService service = new GetAllSeasonsBySportIdService();
-        service.init(dbConn,broker);
-        assertNotNull(service.execute(id));
+        GetAllSeasonsBySportIdService service = new GetAllSeasonsBySportIdService(id);
+        service.init(broker);
+        assertNotNull(service.execute());
     }
     /**
      * Test of execute method, of class GetAllSeasonsBySeasonIdService.
@@ -62,10 +64,9 @@ public class GetAllSeasonsBySportIdServiceTest{
         System.out.println("execute_Behaviour");
         int id = 1;
         Broker broker = getMockedBrokerFactoryWithBrokersSetup();
-        DbConn dbConn = mock(DbConn.class);
-        GetAllSeasonsBySportIdService service = new GetAllSeasonsBySportIdService();
-        service.init(dbConn,broker);
-        service.execute(id);
+        GetAllSeasonsBySportIdService service = new GetAllSeasonsBySportIdService(id);
+        service.init(broker);
+        service.execute();
         verify(broker.getSeasonBroker(),times(1)).findAllSQL("SELECT * FROM seasons WHERE sport_id = ?","1");
     }
     private Broker getMockedBrokerFactory() { 

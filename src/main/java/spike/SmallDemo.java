@@ -6,24 +6,11 @@ package spike;
 
 import Broker.Broker;
 import db.DbConn;
-import domain.CommonFunctions;
-import domain.ExceptionClass;
 import domain.League;
-import domain.Match;
-import domain.Player;
-import domain.Result;
-import domain.Season;
-import domain.Sport;
 import domain.Team;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import service.AddNewSportService;
 import service.GetAllLeaguesBySeasonIdService;
-import service.GetAllLeaguesBySportIdService;
-import service.GetAllMatchesInSportService;
-import service.GetAllTeamsByLeagueIdService;
 import service.GetAllTeamsBySportIdService;
 
 /**
@@ -42,19 +29,18 @@ public class SmallDemo {
 //        Team team = new Team();
 //        Player player = new Player();
     List <Team> te = new ArrayList<>();
-    GetAllTeamsBySportIdService getAllTeamsBySportIdService = new GetAllTeamsBySportIdService();
-    DbConn dbConn = DbConn.getInstance();
-    getAllTeamsBySportIdService.init(DbConn.getInstance(),new Broker());
+    GetAllTeamsBySportIdService getAllTeamsBySportIdService = new GetAllTeamsBySportIdService(1);
+    getAllTeamsBySportIdService.init(new Broker());
     
-    te = getAllTeamsBySportIdService.execute(1);
+    te = getAllTeamsBySportIdService.execute();
     for(Team t:te){
         System.out.println(t.getName() + "    "+ t.getId());
 
     }
-    GetAllLeaguesBySeasonIdService getAllLeaguesBySeasonid = new GetAllLeaguesBySeasonIdService();
-    getAllLeaguesBySeasonid.init(dbConn, new Broker());
+    GetAllLeaguesBySeasonIdService getAllLeaguesBySeasonid = new GetAllLeaguesBySeasonIdService(1);
+    getAllLeaguesBySeasonid.init(new Broker());
 
-    List<League> list = getAllLeaguesBySeasonid.execute(1);
+    List<League> list = getAllLeaguesBySeasonid.execute();
     for(League l: list){
         System.out.println(l.getId() + "   " + l.getName() + "    " +  l.getSeasonId());
     }

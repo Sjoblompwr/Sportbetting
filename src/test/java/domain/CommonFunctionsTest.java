@@ -18,28 +18,10 @@ import static org.mockito.Mockito.when;
 
 /**
  *
- * @author Dator
+ * @author David Sjöblom
  */
 public class CommonFunctionsTest {
-    
-    public CommonFunctionsTest() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
+
 
     /**
      * Test of getInteger method, of class CommonFunctions.

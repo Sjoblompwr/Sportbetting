@@ -7,7 +7,6 @@ package service;
 import Broker.Broker;
 import Broker.LeagueBroker;
 import Broker.SeasonBroker;
-import db.DbConn;
 import domain.League;
 import domain.Season;
 import java.util.ArrayList;
@@ -33,11 +32,10 @@ public class GetAllLeaguesBySportIdServiceTest {
     public void testExecute_behaviour() {
         System.out.println("execute_behaviour");
         int id = 1;
-        GetAllLeaguesBySportIdService service = new GetAllLeaguesBySportIdService();
-        DbConn dbConn = mock(DbConn.class);
+        GetAllLeaguesBySportIdService service = new GetAllLeaguesBySportIdService(id);
         Broker broker = getMockedBrokerFactoryWithBrokersSetup();
-        service.init(dbConn, broker);
-        assertNotNull(service.execute(id));
+        service.init(broker);
+        assertNotNull(service.execute());
     }
     private Broker getMockedBrokerFactory() { 
         LeagueBroker leagueBroker = mock(LeagueBroker.class);
