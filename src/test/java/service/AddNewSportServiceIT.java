@@ -13,11 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
- * @author david
+ * @author Dator
  */
-public class ServiceRunnerIT {
+public class AddNewSportServiceIT {
     
-    public ServiceRunnerIT() {
+    public AddNewSportServiceIT() {
     }
     
     @BeforeAll
@@ -37,15 +37,30 @@ public class ServiceRunnerIT {
     }
 
     /**
-     * Test of execute method, of class ServiceRunner.
+     * Test of setName method, of class AddNewSportService.
+     */
+    @Test
+    public void testSetName() {
+        System.out.println("setName");
+        String name = "";
+        AddNewSportService instance = null;
+        instance.setName(name);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of execute method, of class AddNewSportService.
      */
     @Test
     public void testExecute() {
         System.out.println("execute");
-        ServiceRunner<Boolean> instance = new ServiceRunner(new AddNewTeamService(1, 1, 1, "Hockey"));
-        boolean execute = instance.execute();
-        assertTrue(execute);
-
+        AddNewSportService instance = null;
+        Boolean expResult = null;
+        Boolean result = instance.execute();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
 }
