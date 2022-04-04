@@ -6,63 +6,35 @@ package service;
 
 import domain.Team;
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
- * @author Dator
+ * @author David Sjöblom
  */
 public class GetAllTeamsByLeagueIdServiceIT {
-    
-    public GetAllTeamsByLeagueIdServiceIT() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
-
-    /**
-     * Test of setId method, of class GetAllTeamsByLeagueIdService.
-     */
-    @Test
-    public void testSetId() {
-        System.out.println("setId");
-        int id = 0;
-        GetAllTeamsByLeagueIdService instance = null;
-        instance.setId(id);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of execute method, of class GetAllTeamsByLeagueIdService.
+     * Integration testing with serviceRunner.
      */
     @Test
     public void testExecute() {
-        System.out.println("execute");
-        GetAllTeamsByLeagueIdService instance = null;
-        List<Team> expResult = null;
-        List<Team> result = instance.execute();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("GetAllTeamsByLeagueIdService IT");
+        int id = 1;
+        GetAllTeamsByLeagueIdService service = null;
+        try {
+            service = new GetAllTeamsByLeagueIdService(id);
+        } catch (Exception e) {
+            System.out.println(e + "Exception not expected, "
+                    + "might be empty database at league_id:" + id);
+            fail();
+        }
+        ServiceRunner<List<Team>> serviceRunner = new ServiceRunner(service);
+        List<Team> result = serviceRunner.execute();
+        assertTrue(result.get(0).getName().contains("Lotus")
+                && result.get(1).getName().contains("Hockey"));
     }
-    
+
 }

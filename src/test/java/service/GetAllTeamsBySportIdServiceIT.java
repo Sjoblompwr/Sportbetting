@@ -16,17 +16,25 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GetAllTeamsBySportIdServiceIT {
 
     /**
-     * Test of execute method, of class GetAllTeamsBySportIdService.
+     * Integration test with class GetAllTeamsBySportIdService.
+     * *Note output is sorted firstly based on seasons, then leagues and lastly
+     * teams. So expect team with "low leagues" to be first in list.
      */
     @Test
     public void testExecute() {
-        System.out.println("execute");
+        System.out.println("GetAllTeamsBySportIdService IT");
+        int id = 1;
         GetAllTeamsBySportIdService instance = null;
-        List<Team> expResult = null;
-        List<Team> result = instance.execute();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        try{
+           instance = new GetAllTeamsBySportIdService(id);
+        }catch(Exception e){
+            System.out.println(e + "Exception not expected test fail.");
+            fail("Test fail.");
+        }
+        List<Team> result = (List<Team>) new ServiceRunner(instance).execute();
+        assertTrue(result.get(0).getName().contains("Lotus") && 
+                    result.get(1).getName().contains("Hockey") &&
+                    result.get(4).getName().contains("Enter"));
+        }
 
 }

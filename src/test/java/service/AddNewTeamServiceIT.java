@@ -4,77 +4,36 @@
  */
 package service;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
- * @author Dator
+ * @author David Sjöblom
  */
 public class AddNewTeamServiceIT {
-    
-    public AddNewTeamServiceIT() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
 
     /**
      * Test of execute method, of class AddNewTeamService.
+     * IT with ServiceRunner
      */
     @Test
     public void testExecute() {
-        System.out.println("execute");
-        AddNewTeamService instance = null;
-        Boolean expResult = null;
-        Boolean result = instance.execute();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("AddNewTeam IT");
+        AddNewTeamService service = null;
+        int sport_id = 1;
+        int season_id = 1;
+        int league_id = 1;
+        String name = "Pelikans";
+        try{
+            service = new AddNewTeamService(sport_id, season_id, league_id, name);
+        }catch(Exception e){
+            fail(e + "Big chance of the team already existing, recommend appending"
+                    + "current team name to check if test working.");
+        }
+        ServiceRunner<Boolean> serviceRunner = new ServiceRunner(service);
+        Boolean result = serviceRunner.execute();
+        assertTrue(result,"If fail, the team might already exist, try with new name"
+                + "before assuming the method is not working.");
     }
-
-    /**
-     * Test of setId method, of class AddNewTeamService.
-     */
-    @Test
-    public void testSetId() {
-        System.out.println("setId");
-        int id = 0;
-        String table = "";
-        AddNewTeamService instance = null;
-        instance.setId(id, table);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setName method, of class AddNewTeamService.
-     */
-    @Test
-    public void testSetName() {
-        System.out.println("setName");
-        String name = "";
-        AddNewTeamService instance = null;
-        instance.setName(name);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }

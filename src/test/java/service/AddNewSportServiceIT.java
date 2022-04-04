@@ -4,63 +4,33 @@
  */
 package service;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
- * @author Dator
+ * @author David Sjöblom
  */
 public class AddNewSportServiceIT {
-    
-    public AddNewSportServiceIT() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
-
-    /**
-     * Test of setName method, of class AddNewSportService.
-     */
-    @Test
-    public void testSetName() {
-        System.out.println("setName");
-        String name = "";
-        AddNewSportService instance = null;
-        instance.setName(name);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+  
 
     /**
      * Test of execute method, of class AddNewSportService.
+     * IT with ServiceRunner
      */
     @Test
     public void testExecute() {
-        System.out.println("execute");
-        AddNewSportService instance = null;
-        Boolean expResult = null;
-        Boolean result = instance.execute();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("AddNewSport IT");
+        String name = "Dota";
+        AddNewSportService service = null;
+        try{
+            service = new AddNewSportService(name);
+        }catch(Exception e){
+            fail(e + "Sport might already exist.");
+        }
+        ServiceRunner<Boolean> serviceRunner = new ServiceRunner(service);
+        Boolean result = serviceRunner.execute();
+        assertTrue(result,"Sport might already exist.");
     }
     
 }

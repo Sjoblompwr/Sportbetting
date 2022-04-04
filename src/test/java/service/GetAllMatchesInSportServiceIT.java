@@ -6,63 +6,35 @@ package service;
 
 import domain.Match;
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
- * @author Dator
+ * @author David Sjöblom
  */
 public class GetAllMatchesInSportServiceIT {
-    
-    public GetAllMatchesInSportServiceIT() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
 
     /**
-     * Test of setId method, of class GetAllMatchesInSportService.
-     */
-    @Test
-    public void testSetId() {
-        System.out.println("setId");
-        int id = 0;
-        GetAllMatchesInSportService instance = null;
-        instance.setId(id);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of execute method, of class GetAllMatchesInSportService.
+     * Test of execute method, of class GetAllMatchesInSportService. IT with
+     * ServiceRunner
      */
     @Test
     public void testExecute() {
-        System.out.println("execute");
-        GetAllMatchesInSportService instance = null;
-        List<Match> expResult = null;
-        List<Match> result = instance.execute();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("GetAllMatchesInSportService IT");
+        int id = 1;
+        GetAllMatchesInSportService service = null;
+        try {
+            service = new GetAllMatchesInSportService(id);
+        } catch (Exception e) {
+            System.out.println(e + "Exception not expected id:" + id + " might"
+                    + "not exist or id is not allowed");
+            fail();
+        }
+        ServiceRunner<List<Match>> serviceRunner = new ServiceRunner(service);
+        List<Match> result = serviceRunner.execute();
+        assertTrue(result.get(0).getTeamOneId() == 1
+                && result.get(0).getTeamTwoId() == 2);
     }
-    
+
 }

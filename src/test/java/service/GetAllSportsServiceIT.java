@@ -6,50 +6,28 @@ package service;
 
 import domain.Sport;
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
- * @author Dator
+ * @author David Sjöblom
  */
 public class GetAllSportsServiceIT {
-    
-    public GetAllSportsServiceIT() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
 
     /**
      * Test of execute method, of class GetAllSportsService.
+     * Integration testing with ServiceRunner.
      */
     @Test
     public void testExecute() {
-        System.out.println("execute");
-        GetAllSportsService instance = new GetAllSportsService();
-        List<Sport> expResult = null;
-        List<Sport> result = instance.execute();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("GetAllSportsService IT");
+        GetAllSportsService service = new GetAllSportsService();
+        ServiceRunner<List<Sport>> serviceRunner = new ServiceRunner(service);
+        
+        List<Sport> result = serviceRunner.execute();
+        assertTrue(result.get(0).getName().contains("Hockey") &&
+                result.get(1).getName().contains("Fotboll"));
     }
     
 }

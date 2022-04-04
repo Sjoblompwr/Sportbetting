@@ -13,41 +13,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
- * @author Dator
+ * @author David Sjöblom
  */
 public class AddNewLeagueForSeasonServiceIT {
-    
-    public AddNewLeagueForSeasonServiceIT() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
+   
 
     /**
      * Test of execute method, of class AddNewLeagueForSeasonService.
+     * IT with ServiceRunner
      */
     @Test
     public void testExecute() {
-        System.out.println("execute");
-        AddNewLeagueForSeasonService instance = null;
-        Boolean expResult = null;
-        Boolean result = instance.execute();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("AddNewLeagueForSeason IT");
+        AddNewLeagueForSeasonService service = null;
+        int id = 1;
+        String name = "Korpen";
+        try{
+            service = new AddNewLeagueForSeasonService(id, name);
+        }catch(Exception e){
+            fail(e + "League might already exist.");
+        }
+        ServiceRunner<Boolean> serviceRunner = new ServiceRunner(service);
+        Boolean result = serviceRunner.execute();
+        assertTrue(result,"League might already exist, try changing to new league name");
     }
     
 }

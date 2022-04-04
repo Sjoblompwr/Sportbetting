@@ -43,10 +43,10 @@ public class Season implements BetObject {
 
     /**
      *
-     * @return
+     * @return Format: "YEAR-MONTH-DAY"
      */
-    public int getYear() {
-        return CommonFunctions.getInteger(season, "year");
+    public String getYear() {
+        return season.getString("year");
     }
 
     /**
