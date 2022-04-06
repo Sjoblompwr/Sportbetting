@@ -4,11 +4,6 @@
  */
 package domain;
 
-import org.javalite.activejdbc.Model;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -60,7 +55,7 @@ public class CommonFunctionsTest {
      * Test of setName method, of class CommonFunctions.
      */
     @Test
-    public void testSetName() {
+    public void testSetName() throws ExceptionClass {
         System.out.println("setName");
          mockRecord modelMock = mock(mockRecord.class);
         
@@ -70,7 +65,7 @@ public class CommonFunctionsTest {
 
         try {
             instance.setName(name, modelMock, id);
-        } catch (ExceptionClass ex) {
+        } catch (IllegalArgumentException ex) {
             System.out.println(ex);
             System.out.println("Input may not only be whitespaces. Expected exception.");
         }
@@ -78,7 +73,7 @@ public class CommonFunctionsTest {
         
         try {
             instance.setName(name,modelMock,id);
-        } catch (ExceptionClass ex) {
+        } catch (IllegalArgumentException ex) {
             System.out.println(ex);
             System.out.println("Use of invalid characters. Expected exception.");
         }
@@ -87,7 +82,7 @@ public class CommonFunctionsTest {
         
         try {
             instance.setName(name,modelMock,id); 
-        } catch (ExceptionClass ex) {
+        } catch (IllegalArgumentException ex) {
             System.out.println(ex);
             System.out.println("Use of invalid characters. Expected exception.");
         }
@@ -96,7 +91,7 @@ public class CommonFunctionsTest {
         
         try {
             instance.setName(name,modelMock,id); 
-        } catch (ExceptionClass ex) {
+        } catch (IllegalArgumentException ex) {
             System.out.println(ex);
             System.out.println("Exception not expected, if shown -> test fail.");
         }

@@ -55,20 +55,18 @@ public class CommonFunctions {
      * @param name - Attribute value name
      * @param model - db domain
      * @param id - Attribute value id
-     * @throws ExceptionClass - extension of Exception.class, used to pass
-     * useful error messages. Could be exchanged with a boolean return instead.
      */
-    public static void setName(String name, Model model, int id) throws ExceptionClass {
+    public static void setName(String name, Model model, int id) throws ExceptionClass{
         name = name.trim();
         //Not sure if this regex code allows for whitespaces need to be tested,
         //but left unchecked until this text is removed.
         if (!name.matches("[a-zA-Z]+")) {
-            throw new ExceptionClass("Use of invalid characters.");
+            throw new IllegalArgumentException("Use of invalid characters.");
         }
         name = CommonFunctions.excessWhitespaceRemover(name);
 
         if (name.isBlank()) {
-            throw new ExceptionClass("Input may not only be whitespaces.");
+            throw new IllegalArgumentException("Input may not only be whitespaces.");
         }
 
         model.set("name", name);

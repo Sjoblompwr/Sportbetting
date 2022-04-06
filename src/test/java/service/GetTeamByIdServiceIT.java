@@ -4,14 +4,7 @@
  */
 package service;
 
-import domain.ExceptionClass;
 import domain.Team;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,7 +25,7 @@ public class GetTeamByIdServiceIT {
         GetTeamByIdService instance = null;
         try {
             instance = new GetTeamByIdService(id);
-        } catch (ExceptionClass ex) {
+        } catch (IllegalArgumentException ex) {
             System.out.println("If id error is thrown, make sure id is <1.");
         }
         ServiceRunner serviceRunner = new ServiceRunner(instance);

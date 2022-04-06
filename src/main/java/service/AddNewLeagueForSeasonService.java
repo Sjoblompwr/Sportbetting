@@ -4,12 +4,8 @@
  */
 package service;
 
-import Broker.Broker;
-import db.DbConn;
 import domain.ExceptionClass;
 import domain.League;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -19,6 +15,11 @@ public class AddNewLeagueForSeasonService extends BaseService<Boolean>{
 
     private int id;
     private String name;
+    /**
+     * 
+     * @param id Season id
+     * @param name League name
+     */
     public AddNewLeagueForSeasonService(int id,String name){
         if(id<1){
             throw new IllegalArgumentException("id must be above 0");
@@ -38,8 +39,8 @@ public class AddNewLeagueForSeasonService extends BaseService<Boolean>{
             League league = (League) getBroker().getLeagueBroker().create();
             try {
                 league.setName(name);
-            } catch (ExceptionClass ex) {
-                System.out.println(ex);
+            } catch (Exception ex) {
+                throw new IllegalArgumentException(ex);
             }
             league.setSeasonId(id);
             boolean bool = league.insert();

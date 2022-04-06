@@ -57,7 +57,7 @@ public class League implements BetObject {
      * @param name - League name
      * @throws ExceptionClass
      */
-    public void setName(String name) throws ExceptionClass {
+    public void setName(String name) throws ExceptionClass{
         CommonFunctions.setName(name, league, LeagueRecord.count().intValue() + 1); 
     }
     

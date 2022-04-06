@@ -11,9 +11,9 @@ public class GetTeamByIdService extends BaseService<Team> {
 
     private final int id;
 
-    public GetTeamByIdService(int id) throws ExceptionClass {
+    public GetTeamByIdService(int id) {
         if (id < 1) {
-            throw new ExceptionClass("id needs to be above 0");
+            throw new IllegalArgumentException("id needs to be above 0");
         } else {
             this.id = id;
         }

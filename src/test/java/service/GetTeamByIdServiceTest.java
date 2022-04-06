@@ -36,7 +36,7 @@ public class GetTeamByIdServiceTest {
         GetTeamByIdService service = null;
         try {
             service = new GetTeamByIdService(id);
-        } catch (ExceptionClass ex) {
+        } catch (IllegalArgumentException ex) {
             System.out.println(ex);
         }
         ServiceRunner serviceRunner = new ServiceRunner(service);
@@ -53,7 +53,7 @@ public class GetTeamByIdServiceTest {
         GetTeamByIdService service = null;
         try {
             service = new GetTeamByIdService(id);
-        } catch (ExceptionClass ex) {
+        } catch (IllegalArgumentException ex) {
             System.out.println(ex);
         }
         ServiceRunner serviceRunner = new ServiceRunner(service);

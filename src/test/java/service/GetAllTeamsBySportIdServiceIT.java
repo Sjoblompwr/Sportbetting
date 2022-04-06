@@ -34,7 +34,7 @@ public class GetAllTeamsBySportIdServiceIT {
         List<Team> result = (List<Team>) new ServiceRunner(instance).execute();
         assertTrue(result.get(0).getName().contains("Lotus") && 
                     result.get(1).getName().contains("Hockey") &&
-                    result.get(4).getName().contains("Enter"));
+                    result.get(2).getName().contains("Pelikans"));
         }
 
 }
